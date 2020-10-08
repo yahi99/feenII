@@ -29,58 +29,63 @@ class ScreenContent extends StatelessWidget {
               return Builder(builder: (BuildContext context) {
                 return LayoutBuilder(builder: (ctx, constraints) {
                   return Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
-                    Container(
-                        height: constraints.maxHeight * .8,
-                        child: LayoutBuilder(builder: (ctx, cns) {
-                          return Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Image.asset(imagePath[index],
-                                    height: cns.maxHeight * .6),
-                                SizedBox(height: cns.maxHeight * .05),
-                                Card(
-                                    elevation: 4,
-                                    shape: RoundedRectangleBorder(
-                                        side: BorderSide(color: Colors.black12),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(15))),
-                                    child: Padding(
-                                        padding: EdgeInsets.all(screenHeight*0.03),
-                                        child: AutoSizeText(description[index],
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontFamily: 'Cairo',
-                                                fontSize: 18.0,
-                                                color: primaryColor,
-                                                fontWeight: FontWeight.w600),
-                                            maxFontSize: 18.0,
-                                            minFontSize: 12.0)))
-                              ]);
-                        })),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.35),
-                      child: Container(
-                          height: constraints.maxHeight * .03,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: 3,
-                              itemBuilder: (context, int _index) {
-                                return Container(
-                                    margin: EdgeInsets.only(
-                                        right: _index != 2 ? 16 : 0),
-                                    width: screenWidth * .03,
-                                    height: screenHeight * .05,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: grey),
-                                        shape: BoxShape.circle,
-                                        color:
-                                            index == _index ? gold : silver));
-                              })),
-                    )
-                  ]);
+                        Container(
+                            height: constraints.maxHeight * .8,
+                            child: LayoutBuilder(builder: (ctx, cns) {
+                              return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset(imagePath[index],
+                                        height: cns.maxHeight * .6),
+                                    SizedBox(height: cns.maxHeight * .05),
+                                    Card(
+                                        elevation: 4,
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                color: Colors.black12),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15))),
+                                        child: Padding(
+                                            padding: EdgeInsets.all(
+                                                screenHeight * 0.03),
+                                            child: AutoSizeText(
+                                                description[index],
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    fontFamily: 'Cairo',
+                                                    fontSize: 18.0,
+                                                    color: kPrimaryColor,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                                maxFontSize: 18.0,
+                                                minFontSize: 12.0)))
+                                  ]);
+                            })),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.35),
+                          child: Container(
+                              height: constraints.maxHeight * .03,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 3,
+                                  itemBuilder: (context, int _index) {
+                                    return Container(
+                                        margin: EdgeInsets.only(
+                                            right: _index != 2 ? 16 : 0),
+                                        width: screenWidth * .03,
+                                        height: screenHeight * .05,
+                                        decoration: BoxDecoration(
+                                            border: Border.all(color: grey),
+                                            shape: BoxShape.circle,
+                                            color: index == _index
+                                                ? gold
+                                                : kSilver));
+                                  })),
+                        )
+                      ]);
                 });
               });
             }).toList()));

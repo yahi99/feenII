@@ -33,7 +33,7 @@ class ProfileHeader extends StatelessWidget {
               image: avatar,
               radius: radius,
               backgroundcolor: Colors.white,
-              bordercolor: primaryColor,
+              bordercolor: kPrimaryColor,
               borderWidth: MediaQuery.of(context).size.height * .005,
             ),
             SizedBox(
@@ -101,7 +101,7 @@ class Avatar extends StatelessWidget {
         child: CircleAvatar(
           radius: radius - borderWidth,
           backgroundImage: image,
-          backgroundColor: silver,
+          backgroundColor: kSilver,
         ),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'colors.dart';
 
+import 'colors.dart';
 
 class ActionedLabel extends StatelessWidget {
   final String requiredtext;
@@ -29,7 +29,7 @@ class ActionedLabel extends StatelessWidget {
           maxFontSize: 18,
           minFontSize: 12,
           style: TextStyle(
-            color: primaryColor,
+            color: kPrimaryColor,
             fontWeight: FontWeight.w600,
             fontSize: 18,
             fontFamily: 'Cairo',

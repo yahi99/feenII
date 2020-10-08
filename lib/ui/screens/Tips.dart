@@ -16,7 +16,7 @@ class _Tips extends State<Tips> {
         MediaQuery.of(context).padding.top);
 
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: kPrimaryColor,
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: Stack(
@@ -114,13 +114,13 @@ class _Tips extends State<Tips> {
           backgroundColor: Colors.transparent,
           radius: 40,
           child: Image.asset(imgPath)),
-      title: Text(title, style: normalText.apply(color: primaryColor)),
+      title: Text(title, style: normalText.apply(color: kPrimaryColor)),
       subtitle:
           Text(' إضغط للمزيد', style: smallText.apply(color: Colors.black87)),
       baseColor: Colors.white,
       elevation: 8,
       borderRadius: BorderRadius.all(Radius.circular(15)),
-      expandedColor: silver,
+      expandedColor: kSilver,
       children: <Widget>[
         Divider(thickness: 1.0, height: 1.0),
         Align(

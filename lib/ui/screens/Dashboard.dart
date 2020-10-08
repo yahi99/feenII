@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Database.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Database.dart';
 import 'package:feen/ui/screens/AtmFinder.dart';
 import 'package:feen/ui/widgets/animation/FadeAnimation.dart';
 import 'package:feen/ui/widgets/colors.dart';
@@ -45,7 +45,7 @@ class _DashboardInfoState extends State<DashboardInfo> {
 }
 
 class DashboardScreen extends StatefulWidget {
-  String userSurvey;
+  final String userSurvey;
 
   DashboardScreen({this.userSurvey});
 
@@ -94,7 +94,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   getCurrentUser() async {
-    currentUser = await AuthServices().currentUser();
+    currentUser = await Authnetwork().currentUser();
   }
 
   @override
@@ -109,7 +109,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
-          backgroundColor: primaryColor,
+          backgroundColor: kPrimaryColor,
           body: Directionality(
             textDirection: TextDirection.rtl,
             child: Stack(children: <Widget>[
@@ -176,7 +176,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               style: TextStyle(
                                                   fontFamily: 'Cairo',
                                                   fontWeight: FontWeight.bold,
-                                                  color: primaryColor),
+                                                  color: kPrimaryColor),
                                             ),
                                           ),
                                           Expanded(child: survey()),
@@ -186,7 +186,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               maxFontSize: 12,
                                               style: TextStyle(
                                                   fontFamily: 'Cairo',
-                                                  color: primaryColor),
+                                                  color: kPrimaryColor),
                                             ),
                                           )
                                         ])),
@@ -280,48 +280,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget survey() {
     int p = int.tryParse(userSurvey);
     if (p == 1) {
-      s1 = primaryColor;
+      s1 = kPrimaryColor;
     } else if (p == 2) {
-      s1 = primaryColor;
-      s2 = primaryColor;
+      s1 = kPrimaryColor;
+      s2 = kPrimaryColor;
     } else if (p == 3) {
-      s1 = primaryColor;
-      s2 = primaryColor;
-      s3 = primaryColor;
+      s1 = kPrimaryColor;
+      s2 = kPrimaryColor;
+      s3 = kPrimaryColor;
     } else if (p == 4) {
-      s1 = primaryColor;
-      s2 = primaryColor;
-      s3 = primaryColor;
-      s4 = primaryColor;
+      s1 = kPrimaryColor;
+      s2 = kPrimaryColor;
+      s3 = kPrimaryColor;
+      s4 = kPrimaryColor;
     } else if (p == 5) {
-      s1 = primaryColor;
-      s2 = primaryColor;
-      s3 = primaryColor;
-      s4 = primaryColor;
-      s5 = primaryColor;
+      s1 = kPrimaryColor;
+      s2 = kPrimaryColor;
+      s3 = kPrimaryColor;
+      s4 = kPrimaryColor;
+      s5 = kPrimaryColor;
     } else if (p == 6) {
-      s1 = primaryColor;
-      s2 = primaryColor;
-      s3 = primaryColor;
-      s4 = primaryColor;
-      s5 = primaryColor;
-      s6 = primaryColor;
+      s1 = kPrimaryColor;
+      s2 = kPrimaryColor;
+      s3 = kPrimaryColor;
+      s4 = kPrimaryColor;
+      s5 = kPrimaryColor;
+      s6 = kPrimaryColor;
     } else if (p == 7) {
-      s1 = primaryColor;
-      s2 = primaryColor;
-      s3 = primaryColor;
-      s4 = primaryColor;
-      s5 = primaryColor;
-      s6 = primaryColor;
-      s7 = primaryColor;
+      s1 = kPrimaryColor;
+      s2 = kPrimaryColor;
+      s3 = kPrimaryColor;
+      s4 = kPrimaryColor;
+      s5 = kPrimaryColor;
+      s6 = kPrimaryColor;
+      s7 = kPrimaryColor;
     } else if (p == 8) {
-      s1 = primaryColor;
-      s2 = primaryColor;
-      s3 = primaryColor;
-      s4 = primaryColor;
-      s6 = primaryColor;
-      s7 = primaryColor;
-      s8 = primaryColor;
+      s1 = kPrimaryColor;
+      s2 = kPrimaryColor;
+      s3 = kPrimaryColor;
+      s4 = kPrimaryColor;
+      s6 = kPrimaryColor;
+      s7 = kPrimaryColor;
+      s8 = kPrimaryColor;
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -372,14 +372,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(fontFamily: 'Cairo', color: grey)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
-              backgroundColor: silver,
+              backgroundColor: kSilver,
               actions: <Widget>[
                 FlatButton(
                   onPressed: () => Navigator.of(context).pop(false),
                   child: new Text('لا',
                       style: TextStyle(
                           fontFamily: 'Cairo',
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           fontWeight: FontWeight.bold)),
                 ),
                 FlatButton(
@@ -390,7 +390,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: new Text('نعم',
                       style: TextStyle(
                           fontFamily: 'Cairo',
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           fontWeight: FontWeight.bold)),
                 ),
               ],

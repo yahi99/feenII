@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fancy_drawer/fancy_drawer.dart';
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Database.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Database.dart';
 import 'package:feen/ui/widgets/ProfileHeader.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:feen/ui/widgets/constants.dart';
@@ -68,8 +68,8 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   getCurrentUser() async {
     if (infoChanged == true) {
-      currentUser = await AuthServices().currentUser();
-      currentUser = await AuthServices().currentUser();
+      currentUser = await Authnetwork().currentUser();
+      currentUser = await Authnetwork().currentUser();
       firstName = currentUser.firstName;
       lastName = currentUser.lastName;
       phone = currentUser.phoneNumber;
@@ -116,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 EditDataScreen(userData: currentUser))),
                     text: "تعديل البيانات",
                     fullWidthButton: true,
-                    color: primaryColor,
+                    color: kPrimaryColor,
                     position: GFPosition.end,
                     icon: Icon(FlutterIcons.account_edit_outline_mco),
                     textStyle: TextStyle(
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     fullWidthButton: true,
                     onPressed: () => Fluttertoast.showToast(msg: "قريبا"),
                     text: "عن التطبيق",
-                    color: primaryColor,
+                    color: kPrimaryColor,
                     position: GFPosition.end,
                     icon: Icon(FlutterIcons.alert_box_outline_mco),
                     textStyle: TextStyle(
@@ -136,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     fullWidthButton: true,
                     onPressed: () => Fluttertoast.showToast(msg: "قريبا"),
                     text: "تواصل معنا",
-                    color: primaryColor,
+                    color: kPrimaryColor,
                     position: GFPosition.end,
                     icon: Icon(FlutterIcons.contacts_ant),
                     textStyle: TextStyle(
@@ -157,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           builder: (BuildContext context) => LoginScreen()));
                 },
                 text: "تسجيل الخروج",
-                color: primaryColor,
+                color: kPrimaryColor,
                 type: GFButtonType.outline2x,
                 position: GFPosition.end,
                 icon: Icon(FlutterIcons.exit_to_app_mdi),
@@ -179,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     child: Container(
                       height: screenHeight * 0.3,
                       decoration: BoxDecoration(
-                        color: primaryColor,
+                        color: kPrimaryColor,
                         borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(220)),
                       ),
@@ -234,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   FlatButton(
-                    color: informationKey ? silver : Colors.white,
+                    color: informationKey ? kSilver : Colors.white,
                     onPressed: () {
                       setState(() {
                         informationKey = !informationKey;
@@ -250,7 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                   ),
                   FlatButton(
-                    color: historyKey ? silver : Colors.white,
+                    color: historyKey ? kSilver : Colors.white,
                     onPressed: () {
                       setState(() {
                         historyKey = !historyKey;
@@ -291,7 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     } else if (DatabaseService.historyKey == "notFound") {
       return noResult();
     } else {
-      return loadResult();
+      return loadResult(context);
     }
   }
 
@@ -315,12 +315,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                 backgroundColor: Colors.transparent,
                 child: Icon(
                   Icons.email,
-                  color: primaryColor,
+                  color: kPrimaryColor,
                 )),
             title: Text(
               "البريد الاكتروني",
               style:
-                  TextStyle(color: primaryColor, fontWeight: FontWeight.w500),
+                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(email != null ? email : email = "البريد الاكتروني",
                 style: TextStyle(fontWeight: FontWeight.w500, color: grey)),
@@ -332,11 +332,11 @@ class _ProfileScreenState extends State<ProfileScreen>
           ListTile(
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.smartphone, color: primaryColor)),
+                child: Icon(Icons.smartphone, color: kPrimaryColor)),
             title: Text(
               "رقم الهاتف",
               style:
-                  TextStyle(color: primaryColor, fontWeight: FontWeight.w500),
+                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(phone != null ? phone : phone = "رقم الهاتف",
                 style: TextStyle(fontWeight: FontWeight.w500, color: grey)),
@@ -348,11 +348,11 @@ class _ProfileScreenState extends State<ProfileScreen>
           ListTile(
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.business_center, color: primaryColor)),
+                child: Icon(Icons.business_center, color: kPrimaryColor)),
             title: Text(
               "الحالة",
               style:
-                  TextStyle(color: primaryColor, fontWeight: FontWeight.w500),
+                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(status != null ? status : status = "الحالة",
                 style: TextStyle(fontWeight: FontWeight.w500, color: grey)),
@@ -364,11 +364,11 @@ class _ProfileScreenState extends State<ProfileScreen>
           ListTile(
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(FlutterIcons.bank_faw, color: primaryColor)),
+                child: Icon(FlutterIcons.bank_faw, color: kPrimaryColor)),
             title: Text(
               "البنك التابع له",
               style:
-                  TextStyle(color: primaryColor, fontWeight: FontWeight.w500),
+                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(bank != null ? bank : bank = "لم يحدد بعد",
                 style: TextStyle(fontWeight: FontWeight.w500, color: grey)),

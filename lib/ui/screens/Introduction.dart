@@ -1,5 +1,5 @@
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
+import 'package:feen/network/Auth.dart';
 import 'package:feen/ui/screens/Dashboard.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
@@ -30,7 +30,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
 
   readLocal() async {
     if (_auth.currentUser != null) {
-      currentUser = await AuthServices().currentUser();
+      currentUser = await Authnetwork().currentUser();
     } else {
       Route route = MaterialPageRoute(builder: (builder) => LoginScreen());
       Navigator.pushReplacement(context, route);
@@ -57,7 +57,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
             },
             leftMarginValue: 0,
             title: 'ابدأ',
-            color: primaryColor,
+            color: kPrimaryColor,
             textColor: Colors.white,
           ),
         ],

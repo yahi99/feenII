@@ -52,7 +52,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Ionicons.md_arrow_round_forward,
-                          color: primaryColor),
+                          color: kPrimaryColor),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -66,7 +66,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         style: TextStyle(
                           fontFamily: 'Cairo',
                           fontWeight: FontWeight.bold,
-                          color: primaryColor,
+                          color: kPrimaryColor,
                         ),
                       ),
                     ),
@@ -79,7 +79,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               Center(
                 child: AutoSizeText(
                   'تأكيد رقم الهاتف',
-                  style: kSloganTextStyle.apply(color: primaryColor),
+                  style: kSloganTextStyle.apply(color: kPrimaryColor),
                   minFontSize: 14,
                   maxFontSize: 22,
                 ),
@@ -120,7 +120,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 alignment: Alignment.topLeft,
                 child: RoundedButton(
                   onPressed: _signInWithPhoneNumber,
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   textColor: Colors.white,
                   title: 'التالي',
                   leftMarginValue: 0,

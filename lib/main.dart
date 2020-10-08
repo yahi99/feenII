@@ -24,11 +24,11 @@ class Feen extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          scaffoldBackgroundColor: backgroundColor,
-          primaryColor: primaryColor,
-          accentColor: primaryColor,
+          scaffoldBackgroundColor: kBackgroundColor,
+          primaryColor: kPrimaryColor,
+          accentColor: kPrimaryColor,
           textSelectionColor: lightGreen,
-          cursorColor: primaryColor,
+          cursorColor: kPrimaryColor,
           textSelectionHandleColor: gold,
           fontFamily: 'Cairo',
         ),

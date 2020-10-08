@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Validate.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:feen/ui/widgets/constants.dart';
@@ -18,7 +18,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  AuthServices authService = AuthServices();
+  Authnetwork authService = Authnetwork();
   String email;
 
   @override
@@ -40,7 +40,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   children: <Widget>[
                     IconButton(
                       icon: Icon(Ionicons.md_arrow_round_forward,
-                          color: primaryColor),
+                          color: kPrimaryColor),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -54,7 +54,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         style: TextStyle(
                           fontFamily: 'Cairo',
                           fontWeight: FontWeight.bold,
-                          color: primaryColor,
+                          color: kPrimaryColor,
                         ),
                       ),
                     ),
@@ -67,7 +67,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: AutoSizeText(
                     'تغيير كلمة المرور',
                     textAlign: TextAlign.center,
-                    style: kSloganTextStyle.apply(color: primaryColor),
+                    style: kSloganTextStyle.apply(color: kPrimaryColor),
                     minFontSize: 14,
                     maxFontSize: 22,
                   ),
@@ -128,7 +128,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         ),
                       );
                     },
-                    color: primaryColor,
+                    color: kPrimaryColor,
                     textColor: Colors.white,
                     title: 'التالي',
                     leftMarginValue: 0,

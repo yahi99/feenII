@@ -1,12 +1,11 @@
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Validate.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:feen/ui/widgets/constants.dart';
 import 'package:feen/ui/widgets/textfield_widget.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
@@ -28,7 +27,7 @@ class _SignUpScreen extends State<SignUpScreen> {
 
   _SignUpScreen({this.phone});
 
-  AuthServices _auth = AuthServices();
+  Authnetwork _auth = Authnetwork();
   final _formKey = GlobalKey<FormState>();
   String error = '';
   bool obsecureText;
@@ -69,7 +68,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                         children: <Widget>[
                           IconButton(
                             icon: Icon(Ionicons.md_arrow_round_forward,
-                                color: primaryColor),
+                                color: kPrimaryColor),
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
@@ -83,7 +82,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                               style: TextStyle(
                                 fontFamily: 'Cairo',
                                 fontWeight: FontWeight.bold,
-                                color: primaryColor,
+                                color: kPrimaryColor,
                               ),
                             ),
                           ),
@@ -98,7 +97,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                         maxFontSize: 26,
                         textAlign: TextAlign.center,
                         style: kSloganTextStyle.copyWith(
-                            fontSize: 26.0, color: primaryColor),
+                            fontSize: 26.0, color: kPrimaryColor),
                       ),
                       SizedBox(height: 8),
                       Container(
@@ -257,7 +256,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                               }
                             }
                           },
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           textColor: Colors.white,
                           title: 'التالي',
                           leftMarginValue: 0,

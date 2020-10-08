@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:feen/models/PlaceResult.dart';
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Database.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Database.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,7 +65,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           context: context,
           builder: (context) => new AlertDialog(
             title: new Text('عذرا ، لا يوجد اتصال بالإنترنت',
-                style: TextStyle(fontFamily: 'Cairo', color: primaryColor)),
+                style: TextStyle(fontFamily: 'Cairo', color: kPrimaryColor)),
             content: CircleAvatar(
                 backgroundColor: Colors.transparent,
                 radius: 40,
@@ -78,7 +78,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
   }
 
   getcurrentuser() async {
-    currentUser = await AuthServices().currentUser();
+    currentUser = await Authnetwork().currentUser();
     print('Survey');
     survey = currentUser.survey;
   }
@@ -224,7 +224,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                               ),
                             );
                           },
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           textColor: Colors.white,
                           title: 'تأكيد',
                           leftMarginValue: 0,
@@ -256,7 +256,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
         baseColor: Colors.white,
         elevation: 4,
         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-        expandedColor: silver,
+        expandedColor: kSilver,
         children: <Widget>[
           Divider(thickness: 1.0, height: 1.0),
           Padding(
@@ -272,7 +272,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                             fontSize: 16,
                             fontWeight: FontWeight.w700)),
                     Radio(
-                        activeColor: primaryColor,
+                        activeColor: kPrimaryColor,
                         value: 1,
                         groupValue: _group,
                         onChanged: (value) {
@@ -349,14 +349,14 @@ class _SurveyScreenState extends State<SurveyScreen> {
                   style: TextStyle(fontFamily: 'Cairo', color: grey)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
-              backgroundColor: silver,
+              backgroundColor: kSilver,
               actions: <Widget>[
                 new FlatButton(
                   onPressed: () => Navigator.of(context).pop(false),
                   child: new Text('لا',
                       style: TextStyle(
                           fontFamily: 'Cairo',
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           fontWeight: FontWeight.bold)),
                 ),
                 new FlatButton(
@@ -367,7 +367,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                   child: new Text('نعم',
                       style: TextStyle(
                           fontFamily: 'Cairo',
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           fontWeight: FontWeight.bold)),
                 ),
               ],

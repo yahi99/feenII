@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Database.dart';
-import 'package:feen/services/Validate.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Database.dart';
+import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/screens/Profile.dart';
 import 'package:feen/ui/widgets/ProfileHeader.dart';
 import 'package:feen/ui/widgets/actionedLabel.dart';
@@ -32,7 +32,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
   final _formKey = GlobalKey<FormState>();
   String email, firstName, phone, lastName;
   DatabaseService databaseService = DatabaseService();
-  AuthServices authService = AuthServices();
+  Authnetwork authService = Authnetwork();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(Ionicons.md_arrow_round_forward,
-                            color: primaryColor),
+                            color: kPrimaryColor),
                         onPressed: () => Navigator.pop(context),
                       ),
                       SizedBox(width: 2),
@@ -64,7 +64,8 @@ class _EditDataScreenState extends State<EditDataScreen> {
                           maxFontSize: 40,
                           minFontSize: 20.0,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: primaryColor),
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryColor),
                         ),
                       ),
                     ],
@@ -72,7 +73,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                   Avatar(
                       image: AssetImage('assets/icons/user.png'),
                       borderWidth: MediaQuery.of(context).size.height * .005,
-                      bordercolor: primaryColor,
+                      bordercolor: kPrimaryColor,
                       backgroundcolor: Colors.white,
                       radius: screenHeight * .08),
                   SizedBox(height: 8),
@@ -176,7 +177,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                       },
                       title: 'تأكيد',
                       textColor: Colors.white,
-                      color: primaryColor,
+                      color: kPrimaryColor,
                       leftMarginValue: 0,
                     ),
                   ),
@@ -204,7 +205,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text('لا',
                       style: TextStyle(
-                          color: primaryColor, fontWeight: FontWeight.bold)),
+                          color: kPrimaryColor, fontWeight: FontWeight.bold)),
                 ),
                 FlatButton(
                   onPressed: () async {
@@ -215,11 +216,11 @@ class _EditDataScreenState extends State<EditDataScreen> {
                         MaterialPageRoute(
                             builder: (builder) => ProfileScreen(
                                 userData: userData, infoChanged: true)));
-                    //editUser =  await AuthServices().CurrentUser();
+                    //editUser =  await Authnetwork().CurrentUser();
                   },
                   child: Text('نعم',
                       style: TextStyle(
-                          color: primaryColor, fontWeight: FontWeight.bold)),
+                          color: kPrimaryColor, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),

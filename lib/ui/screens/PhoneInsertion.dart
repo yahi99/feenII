@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:feen/services/Validate.dart';
+import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:feen/ui/widgets/constants.dart';
@@ -54,7 +54,7 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
             textDirection: TextDirection.rtl,
             child: new AlertDialog(
               title: new Text('عذرا ، لا يوجد اتصال بالإنترنت',
-                  style: TextStyle(fontFamily: 'Cairo', color: primaryColor)),
+                  style: TextStyle(fontFamily: 'Cairo', color: kPrimaryColor)),
               content: CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: 40,
@@ -88,7 +88,7 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
                       children: <Widget>[
                         IconButton(
                           icon: Icon(Ionicons.md_arrow_round_forward,
-                              color: primaryColor),
+                              color: kPrimaryColor),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -102,7 +102,7 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
                             style: TextStyle(
                               fontFamily: 'Cairo',
                               fontWeight: FontWeight.bold,
-                              color: primaryColor,
+                              color: kPrimaryColor,
                             ),
                           ),
                         ),
@@ -114,7 +114,7 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
                     AutoSizeText(
                       'تسجيل رقم الهاتف',
                       textAlign: TextAlign.center,
-                      style: kSloganTextStyle.apply(color: primaryColor),
+                      style: kSloganTextStyle.apply(color: kPrimaryColor),
                       minFontSize: 14,
                       maxFontSize: 22,
                     ),
@@ -169,7 +169,7 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
                             phoneNumber();
                           }
                         },
-                        color: primaryColor,
+                        color: kPrimaryColor,
                         textColor: Colors.white,
                         title: 'التالي',
                         leftMarginValue: 0,
@@ -191,10 +191,10 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
             textDirection: TextDirection.rtl,
             child: AlertDialog(
               title: new Text('رجاء الأنتظار',
-                  style: TextStyle(fontFamily: 'Cairo', color: primaryColor)),
+                  style: TextStyle(fontFamily: 'Cairo', color: kPrimaryColor)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
-              content: Container(height: 120, child: loadResult()),
+              content: Container(height: 120, child: loadResult(context)),
             ),
           );
         });

@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Validate.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/screens/ForgotPassword.dart';
 import 'package:feen/ui/screens/PhoneInsertion.dart';
 import 'package:feen/ui/widgets/animation/FadeAnimation.dart';
@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           title: 'تسجيل الدخول',
                           textColor: Colors.white,
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           leftMarginValue: 0),
                     ),
                   ),
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'إنشاء حساب',
                               style: TextStyle(
                                   fontFamily: 'Cairo',
-                                  color: primaryColor,
+                                  color: kPrimaryColor,
                                   fontWeight: FontWeight.bold),
                             )),
                       ],
@@ -212,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      UserData userdata = await AuthServices().currentUser();
+      UserData userdata = await Authnetwork().currentUser();
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

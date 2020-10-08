@@ -3,7 +3,7 @@ import 'package:feen/models/userData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class AuthServices {
+class Authnetwork {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final CollectionReference userColection =
       Firestore.instance.collection('User');

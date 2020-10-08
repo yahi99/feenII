@@ -38,20 +38,20 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
   void initState() {
     super.initState();
     controller = SheetController();
+    print(widget.placeList.length);
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return SlidingSheet(
       controller: controller,
       color: Colors.white,
-      elevation: 18,
-      cornerRadius: 25,
+      elevation: 15,
+      cornerRadius: 30,
       closeOnBackButtonPressed: true,
       border: Border.all(color: Colors.black45, width: 2),
-      snapSpec: SnapSpec(
-          snap: true, positioning: SnapPositioning.relativeToAvailableSpace),
-      scrollSpec: ScrollSpec.bouncingScroll(),
+      snapSpec: SnapSpec(positioning: SnapPositioning.relativeToSheetHeight),
       listener: (state) {
         this.state = state;
         setState(() => null);
@@ -67,7 +67,6 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
     return CustomContainer(
         animate: true,
         height: screenSize.height * 0.25,
-        color: Colors.white,
         child: Column(children: <Widget>[
           SizedBox(height: 8),
           Align(
@@ -97,7 +96,7 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
                 margin: EdgeInsets.fromLTRB(4, 8, 0, 0),
                 width: screenSize.width * 0.85,
                 child: Card(
-                    color: silver,
+                    color: kSilver,
                     elevation: 4,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.black26),
@@ -139,7 +138,7 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
                                           style: TextStyle(
                                               fontSize: 11.0,
                                               fontWeight: FontWeight.w700,
-                                              color: primaryColor)),
+                                              color: kPrimaryColor)),
                                       SizedBox(
                                           width: 150.0,
                                           child: Divider(
@@ -208,7 +207,7 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
                       controller.rebuild();
                     });
                   },
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   text: 'إذهب',
                   shape: GFButtonShape.pills,
                   textStyle: TextStyle(
@@ -229,7 +228,7 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
                   },
                   type: GFButtonType.outline,
                   shape: GFButtonShape.pills,
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   text: !isExpanded ? 'التفاصيل' : 'الخريطة',
                   textStyle: TextStyle(
                       color: Colors.black87, fontWeight: FontWeight.w600),
@@ -250,7 +249,7 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
                   },
                   type: GFButtonType.outline,
                   shape: GFButtonShape.pills,
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   text: 'إعادة بحث',
                   textStyle: TextStyle(
                       color: Colors.black87, fontWeight: FontWeight.w600),
@@ -267,7 +266,6 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               divider,
               SizedBox(height: 12),
@@ -275,7 +273,7 @@ class _BuildSheetWidgetState extends State<BuildSheetWidget> {
                   padding: EdgeInsets.symmetric(horizontal: 8),
                   child: Text("التفاصيل",
                       style: TextStyle(
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           fontWeight: FontWeight.w700,
                           fontSize: 16))),
               Padding(

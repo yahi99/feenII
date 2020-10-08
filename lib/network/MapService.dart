@@ -4,9 +4,8 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feen/models/PlaceResponse.dart';
 import 'package:feen/models/PlaceResult.dart';
-import 'package:feen/services/Database.dart';
+import 'package:feen/network/Database.dart';
 import 'package:feen/ui/screens/Dashboard.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -23,7 +22,7 @@ class MapService {
   static List<PlaceResult> places = new List<PlaceResult>();
 
   /*static getCurrentUser() async {
-    currentUser = await AuthServices().CurrentUser();
+    currentUser = await Authnetwork().CurrentUser();
   }*/
 
   static setLocation(double lat, double lng) {
@@ -44,53 +43,45 @@ class MapService {
   }
 
   static getNearbyAtm(String bankName, String operationType) async {
-    objectAtm = new List<PlaceResult>();
+    objectAtm = List<PlaceResult>();
     DatabaseService.renewTriesNumber();
-    if (checkTrisNumber() == false) {
-      Fluttertoast.showToast(msg: "عذرا لقد استهلكت الثلاث محولات المجانين");
-      atmKey = "overTries";
-      print("The Key is " + atmKey);
-      return objectAtm;
-    } else {
-      objectAtm.clear();
-      atmKey = "null";
-      checkKeyword(bankName);
-      String _url =
-          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-          "location=$latitude,$longitude&rankby=distance&type=atm&keyword=$bankName&key=$apiKey";
-      final response = await http.get(_url);
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['status'] == "OK") {
-          places =
-              PlaceResponse.parseResults(data['results']).cast<PlaceResult>();
-          for (int i = 0; i < places.length; i++) {
-            getAtmName(i);
-            getSimultaneousData(bankName, i, places[i].placeId);
-          }
-          if (operationType.contains("إيداع")) {
-            List<PlaceResult> deposit = new List<PlaceResult>();
-            objectAtm.forEach((f) {
-              if (f.rating == 5) {
-                deposit.add(f);
-              }
-            });
-            objectAtm = deposit;
-          }
-          DatabaseService.updateTriesNumber(currentUser.triesNumber + 1);
-        } else if (data['status'] == ("NOT_FOUND") ||
-            data['status'] == ("ZERO_RESULTS")) {
-          atmKey = "NOT_FOUND OR ZERO_RESULTS";
-        } else if (data['status'] == ("OVER_QUERY_LIMIT")) {
-          atmKey = "OVER_QUERY_LIMIT";
+    objectAtm.clear();
+    atmKey = "null";
+    checkKeyword(bankName);
+    String _url =
+        "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+        "location=$latitude,$longitude&rankby=distance&type=atm&keyword=$bankName&key=$apiKey";
+    final response = await http.get(_url);
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data['status'] == "OK") {
+        places =
+            PlaceResponse.parseResults(data['results']).cast<PlaceResult>();
+        for (int i = 0; i < places.length; i++) {
+          getAtmName(i);
+          getSimultaneousData(bankName, i, places[i].placeId);
         }
-      } else {
-        atmKey = "other Error";
-        throw Exception('An error occurred getting places nearby');
+        if (operationType.contains("إيداع")) {
+          List<PlaceResult> deposit = new List<PlaceResult>();
+          objectAtm.forEach((f) {
+            if (f.rating == 5) {
+              deposit.add(f);
+            }
+          });
+          objectAtm = deposit;
+        }
+      } else if (data['status'] == ("NOT_FOUND") ||
+          data['status'] == ("ZERO_RESULTS")) {
+        atmKey = "NOT_FOUND OR ZERO_RESULTS";
+      } else if (data['status'] == ("OVER_QUERY_LIMIT")) {
+        atmKey = "OVER_QUERY_LIMIT";
       }
-      print("The Key is " + atmKey);
-      return objectAtm;
+    } else {
+      atmKey = "other Error";
+      throw Exception('An error occurred getting places nearby');
     }
+    print("The Key is " + atmKey);
+    return objectAtm;
   }
 
   static getNearbyBank(String bankName) async {

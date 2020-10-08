@@ -1,5 +1,5 @@
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
+import 'package:feen/network/Auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +25,7 @@ class _LandingPageState extends State<LandingPage> {
 
   readLocal() async {
     _auth.currentUser != null ? isCurrentUser = true : isCurrentUser = false;
-    currentUser = await AuthServices().currentUser();
+    currentUser = await Authnetwork().currentUser();
   }
 
   @override

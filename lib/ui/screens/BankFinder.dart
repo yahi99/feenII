@@ -7,8 +7,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:feen/models/Error.dart';
 import 'package:feen/models/MenuList.dart';
 import 'package:feen/models/PlaceResult.dart';
-import 'package:feen/services/API_KEY.dart';
-import 'package:feen/services/MapService.dart';
+import 'package:feen/network/API_KEY.dart';
+import 'package:feen/network/MapService.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:feen/ui/widgets/constants.dart';
 import 'package:feen/ui/widgets/util.dart';
@@ -93,7 +93,7 @@ class _AtmFinder extends State<BankFinder> {
             textDirection: TextDirection.rtl,
             child: new AlertDialog(
               title: new Text('عذرا ، لا يوجد اتصال بالإنترنت',
-                  style: TextStyle(fontFamily: 'Cairo', color: primaryColor)),
+                  style: TextStyle(fontFamily: 'Cairo', color: kPrimaryColor)),
               content: CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: 40,
@@ -202,7 +202,7 @@ class _AtmFinder extends State<BankFinder> {
       PolylineId id = PolylineId("ID");
       Polyline polyline = Polyline(
         polylineId: id,
-        color: primaryColor,
+        color: kPrimaryColor,
         onTap: moveCamera(LatLng(destination.latitude, destination.longitude)),
         points: polylineCoordinates,
         endCap: Cap.roundCap,
@@ -302,7 +302,7 @@ class _AtmFinder extends State<BankFinder> {
 
     SpearMenu menu = SpearMenu(
         lineColor: Colors.black54,
-        highlightColor: primaryColor,
+        highlightColor: kPrimaryColor,
         items: setData,
         onClickMenu: onClickBankMenu);
     menu.show(widgetKey: btnKey);
@@ -341,7 +341,7 @@ class _AtmFinder extends State<BankFinder> {
                         margin: EdgeInsets.fromLTRB(4, 8, 0, 0),
                         width: screenSize.width * 0.85,
                         child: new Card(
-                            color: silver,
+                            color: kSilver,
                             elevation: 4,
                             shape: RoundedRectangleBorder(
                               side: BorderSide(color: Colors.black26),
@@ -389,7 +389,7 @@ class _AtmFinder extends State<BankFinder> {
                                                       fontSize: 11.0,
                                                       fontWeight:
                                                           FontWeight.w700,
-                                                      color: primaryColor)),
+                                                      color: kPrimaryColor)),
                                               SizedBox(
                                                   width: 150.0,
                                                   child: Divider(
@@ -440,7 +440,7 @@ class _AtmFinder extends State<BankFinder> {
     } else if (MapService.bankKey == "notFound") {
       return noResult();
     } else {
-      return loadResult();
+      return loadResult(context);
     }
   }
 
@@ -502,7 +502,7 @@ class _AtmFinder extends State<BankFinder> {
           snap: true,
           positioning: SnapPositioning.relativeToAvailableSpace,
           snappings: const [SnapSpec.headerFooterSnap, SnapSpec.expanded]),
-      scrollSpec: ScrollSpec.overscroll(color: primaryColor),
+      scrollSpec: ScrollSpec.overscroll(color: kPrimaryColor),
       listener: (state) {
         this.state = state;
         setState(() {});
@@ -561,7 +561,7 @@ class _AtmFinder extends State<BankFinder> {
                       controller.rebuild();
                     });
                   },
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   text: 'إذهب',
                   shape: GFButtonShape.pills,
                   textStyle: TextStyle(
@@ -583,7 +583,7 @@ class _AtmFinder extends State<BankFinder> {
                   },
                   type: GFButtonType.outline,
                   shape: GFButtonShape.pills,
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   text: !isExpanded ? 'التفاصيل' : 'الخريطة',
                   textStyle: TextStyle(
                       fontFamily: 'Cairo',
@@ -610,7 +610,7 @@ class _AtmFinder extends State<BankFinder> {
                   },
                   type: GFButtonType.outline,
                   shape: GFButtonShape.pills,
-                  color: primaryColor,
+                  color: kPrimaryColor,
                   text: 'إعادة بحث',
                   textStyle: TextStyle(
                       fontFamily: 'Cairo',
@@ -638,7 +638,7 @@ class _AtmFinder extends State<BankFinder> {
                   child: Text("التفاصيل",
                       style: TextStyle(
                           fontFamily: 'Cairo',
-                          color: primaryColor,
+                          color: kPrimaryColor,
                           fontWeight: FontWeight.w700,
                           fontSize: 16))),
               Padding(

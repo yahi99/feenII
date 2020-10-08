@@ -1,5 +1,5 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:feen/services/Database.dart';
+import 'package:feen/network/Database.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class History extends StatelessWidget {
   Widget getHistory(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Container(
-        color: backgroundColor,
+        color: kBackgroundColor,
         margin: EdgeInsets.symmetric(horizontal: 16),
         height: screenSize.height * 0.6,
         child: new ListView(
@@ -39,7 +39,7 @@ class History extends StatelessWidget {
               ),
               baseColor: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(15)),
-              expandedColor: silver,
+              expandedColor: kSilver,
               children: <Widget>[
                 Divider(thickness: 1.0, height: 1.0),
                 Align(
@@ -59,7 +59,7 @@ class History extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Icon(FlutterIcons.timer_mco,
-                              color: primaryColor, size: 18),
+                              color: kPrimaryColor, size: 18),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 2.0),
                           ),
@@ -77,7 +77,7 @@ class History extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             MaterialIcons.date_range,
-                            color: primaryColor,
+                            color: kPrimaryColor,
                             size: 18,
                           ),
                           Padding(
@@ -97,7 +97,7 @@ class History extends StatelessWidget {
                         children: <Widget>[
                           Icon(
                             FlutterIcons.atm_mco,
-                            color: primaryColor,
+                            color: kPrimaryColor,
                             size: 18,
                           ),
                           Padding(

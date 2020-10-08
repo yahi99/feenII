@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feen/models/History.dart';
 import 'package:feen/models/PlaceResult.dart';
-import 'package:feen/services/Auth.dart';
+import 'package:feen/network/Auth.dart';
 import 'package:feen/ui/screens/Dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -81,21 +81,21 @@ class DatabaseService {
   }
 
   Future editData(String attribute, String x) async {
-    currentUser = await AuthServices().currentUser();
+    currentUser = await Authnetwork().currentUser();
     final FirebaseUser user = await _auth.currentUser();
     final String uid = user.uid.toString();
     try {
       await userColection.document(uid).updateData({
         attribute: x,
       });
-      currentUser = await AuthServices().currentUser();
+      currentUser = await Authnetwork().currentUser();
     } catch (e) {
       print(" **************");
     }
   }
 
   Future updatePoints() async {
-    currentUser = await AuthServices().currentUser();
+    currentUser = await Authnetwork().currentUser();
     final FirebaseUser user = await _auth.currentUser();
     final String uid = user.uid.toString();
     try {
@@ -111,7 +111,7 @@ class DatabaseService {
           'levels': '2',
         });
       }
-      currentUser = await AuthServices().currentUser();
+      currentUser = await Authnetwork().currentUser();
     } catch (e) {
       print(" **************");
     }
@@ -370,7 +370,7 @@ class DatabaseService {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final CollectionReference userColection =
         Firestore.instance.collection('User');
-    currentUser = await AuthServices().currentUser();
+    currentUser = await Authnetwork().currentUser();
     FirebaseUser user = await _auth.currentUser();
     final String uid = user.uid.toString();
     var now = DateTime.now();
@@ -391,14 +391,14 @@ class DatabaseService {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     final CollectionReference userColection =
         Firestore.instance.collection('User');
-    currentUser = await AuthServices().currentUser();
+    currentUser = await Authnetwork().currentUser();
     FirebaseUser user = await _auth.currentUser();
     final String uid = user.uid.toString();
     try {
       await userColection.document(uid).updateData({
         'triesNumber': number,
       });
-      currentUser = await AuthServices().currentUser();
+      currentUser = await Authnetwork().currentUser();
     } catch (e) {
       print(" **************");
     }

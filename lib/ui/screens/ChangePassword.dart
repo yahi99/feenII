@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:feen/models/userData.dart';
-import 'package:feen/services/Auth.dart';
-import 'package:feen/services/Database.dart';
-import 'package:feen/services/Validate.dart';
+import 'package:feen/network/Auth.dart';
+import 'package:feen/network/Database.dart';
+import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:feen/ui/widgets/textfield_widget.dart';
@@ -41,7 +41,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   String password, confirmPassword, oldPassword;
   DatabaseService databaseService = DatabaseService();
-  AuthServices authService = AuthServices();
+  Authnetwork authService = Authnetwork();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(Ionicons.md_arrow_round_forward,
-                            color: primaryColor),
+                            color: kPrimaryColor),
                         onPressed: () => Navigator.of(context).pop(),
                       ),
                       SizedBox(width: 2),
@@ -74,7 +74,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           maxFontSize: 40,
                           minFontSize: 20.0,
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: primaryColor),
+                              fontWeight: FontWeight.bold,
+                              color: kPrimaryColor),
                         ),
                       ),
                     ],
@@ -164,7 +165,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         }
                       },
                       title: 'التالي',
-                      color: primaryColor,
+                      color: kPrimaryColor,
                       textColor: Colors.white,
                       leftMarginValue: 0,
                     ),
@@ -193,7 +194,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text('لا',
                       style: TextStyle(
-                          color: primaryColor, fontWeight: FontWeight.bold)),
+                          color: kPrimaryColor, fontWeight: FontWeight.bold)),
                 ),
                 FlatButton(
                   onPressed: () {
@@ -208,7 +209,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   },
                   child: Text('نعم',
                       style: TextStyle(
-                          color: primaryColor, fontWeight: FontWeight.bold)),
+                          color: kPrimaryColor, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),

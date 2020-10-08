@@ -25,7 +25,7 @@ Future<bool> noInternetConnection(BuildContext context) async {
       textDirection: TextDirection.rtl,
       child: new AlertDialog(
         title: new Text('عذرا ، لا يوجد اتصال بالإنترنت',
-            style: TextStyle(fontFamily: 'Cairo', color: primaryColor)),
+            style: TextStyle(fontFamily: 'Cairo', color: kPrimaryColor)),
         content: CircleAvatar(
             backgroundColor: Colors.transparent,
             radius: 40,
@@ -54,18 +54,22 @@ Widget backWidget(BuildContext context, String title, Color color) {
   );
 }
 
-Widget loadResult() {
-  return Center(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 34),
+loadResult(BuildContext context) {
+  return AlertDialog(
+    insetPadding: EdgeInsets.all(8),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+    title: Text('رجاء الأنتظار..', style: TextStyle(color: kPrimaryColor)),
+    titlePadding: EdgeInsets.all(10),
+    contentPadding: EdgeInsets.only(bottom: 30),
+    content: Container(
+      height: 50,
       child: SpinKitChasingDots(
         size: 50,
         itemBuilder: (BuildContext context, int index) {
           return DecoratedBox(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: index.isEven ? primaryColor : grey,
-            ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: index.isEven ? kPrimaryColor : grey),
           );
         },
       ),
@@ -102,13 +106,13 @@ const kTitleTextStyle = TextStyle(
 const title = TextStyle(
   fontSize: 28.0,
   fontFamily: 'Cairo',
-  color: primaryColor,
+  color: kPrimaryColor,
   fontWeight: FontWeight.bold,
 );
 const subtitle = TextStyle(
   fontSize: 22.0,
   fontFamily: 'Cairo',
-  color: primaryColor,
+  color: kPrimaryColor,
   fontWeight: FontWeight.bold,
 );
 const normalText = TextStyle(
@@ -119,7 +123,7 @@ const normalText = TextStyle(
 const smallText = TextStyle(
   fontSize: 12.0,
   fontFamily: 'Cairo',
-  color: primaryColor,
+  color: kPrimaryColor,
 );
 
 const kSloganTextStyle = TextStyle(
@@ -132,7 +136,7 @@ const kSloganTextStyle = TextStyle(
 const kStepsFontStyle = TextStyle(
   fontSize: 18.0,
   fontFamily: 'Cairo',
-  color: primaryColor,
+  color: kPrimaryColor,
   fontWeight: FontWeight.bold,
 );
 
@@ -168,7 +172,7 @@ const kRoundedDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(10)),
   ),
   focusedBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: primaryColor, width: 2),
+    borderSide: BorderSide(color: kPrimaryColor, width: 2),
     borderRadius: BorderRadius.all(Radius.circular(10)),
   ),
 );
