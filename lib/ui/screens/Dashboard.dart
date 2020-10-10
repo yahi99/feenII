@@ -369,7 +369,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             textDirection: TextDirection.rtl,
             child: AlertDialog(
               content: Text('هل تريد حقًا الخروج من التطبيق؟',
-                  style: TextStyle(fontFamily: 'Cairo', color: grey)),
+                  style: TextStyle(fontFamily: 'Cairo', color: kGrey)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               backgroundColor: kSilver,

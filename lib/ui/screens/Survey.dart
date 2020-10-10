@@ -252,7 +252,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
             child: Image.asset(imgPath)),
         title: Text(title, style: TextStyle(fontFamily: 'Cairo')),
         subtitle: Text(' إضغط للإجابة',
-            style: TextStyle(fontFamily: 'Cairo', color: grey)),
+            style: TextStyle(fontFamily: 'Cairo', color: kGrey)),
         baseColor: Colors.white,
         elevation: 4,
         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
@@ -346,7 +346,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
             textDirection: TextDirection.rtl,
             child: new AlertDialog(
               content: new Text('هل تريد حقًا الخروج من الاستبيان؟',
-                  style: TextStyle(fontFamily: 'Cairo', color: grey)),
+                  style: TextStyle(fontFamily: 'Cairo', color: kGrey)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               backgroundColor: kSilver,

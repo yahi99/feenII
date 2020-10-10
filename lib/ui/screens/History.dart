@@ -34,7 +34,7 @@ class History extends StatelessWidget {
               ),
               subtitle: Text(
                 'إضغط لمزيم من التفاصيل',
-                style: TextStyle(fontFamily: 'Cairo', color: grey),
+                style: TextStyle(fontFamily: 'Cairo', color: kGrey),
                 textDirection: TextDirection.rtl,
               ),
               baseColor: Colors.white,

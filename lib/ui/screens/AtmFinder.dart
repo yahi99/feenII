@@ -12,7 +12,7 @@ import 'package:feen/network/Database.dart';
 import 'package:feen/network/MapService.dart';
 import 'package:feen/ui/screens/Survey.dart';
 import 'package:feen/ui/widgets/buildMap.dart';
-import 'package:feen/ui/widgets/buildSheet.dart';
+import 'package:feen/ui/widgets/bottomSheet.dart';
 import 'package:feen/ui/widgets/colors.dart';
 import 'package:feen/ui/widgets/constants.dart';
 import 'package:feen/ui/widgets/defaultData.dart';
@@ -84,9 +84,9 @@ class _AtmFinder extends State<AtmFinder> {
     _currentPosition = widget.position;
     _getCurrentLocation();
     controller = SheetController();
-    MapService.setLocation(
-        _currentPosition.latitude, _currentPosition.longitude);
-    MapService.getNearbyAtm(targetBank, targetOperation);
+    // MapService.setLocation(
+    //     _currentPosition.latitude, _currentPosition.longitude);
+    // MapService.getNearbyAtm(targetBank, targetOperation);
     expandSheet();
   }
 
@@ -262,7 +262,7 @@ class _AtmFinder extends State<AtmFinder> {
         textDirection: TextDirection.rtl,
         child: Stack(
           children: <Widget>[
-            BuildMapWidget(),
+            BuildMapWidget(position: widget.position, place: AtmBloc.atmList),
             Positioned(
                 top: 32,
                 left: 8,
@@ -271,7 +271,7 @@ class _AtmFinder extends State<AtmFinder> {
                     onPressed: _getLocation,
                     backgroundColor: Colors.grey,
                     child: Icon(Ionicons.ios_locate, color: Colors.white))),
-            backWidget(context, 'أفضل ماكينة', grey),
+            backWidget(context, 'أفضل ماكينة', kGrey),
             Positioned(
                 bottom: screenSize.height * 0.35,
                 right: 8,
@@ -306,7 +306,7 @@ class _AtmFinder extends State<AtmFinder> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text(snapshot.error.toString()));
                   }
-                  return BuildSheetWidget(placeList: AtmBloc.atmList);
+                  return BottomSheetWidget(placeList: AtmBloc.atmList);
                 }),
           ],
         ),

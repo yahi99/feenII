@@ -34,8 +34,8 @@ class TextFieldWidget extends StatelessWidget {
         decoration: kRoundedDecoration.copyWith(
             labelText: labeltext,
             hintText: hintText,
-            hintStyle: TextStyle(fontFamily: 'Cairo', color: grey),
-            prefixIcon: Icon(prefixIcon, color: grey)),
+            hintStyle: TextStyle(fontFamily: 'Cairo', color: kGrey),
+            prefixIcon: Icon(prefixIcon, color: kGrey)),
       ),
     );
   }
@@ -78,9 +78,9 @@ class PasswordFieldWidget extends StatelessWidget {
           labelText: labeltext,
           hintText: hintText,
           hintStyle: TextStyle(fontFamily: 'Cairo', color: Colors.black54),
-          prefixIcon: Icon(prefixIcon, color: grey),
+          prefixIcon: Icon(prefixIcon, color: kGrey),
           suffixIcon: IconButton(
-            icon: Icon(suffixIcon, color: grey),
+            icon: Icon(suffixIcon, color: kGrey),
             onPressed: onpressed,
           ),
         ),

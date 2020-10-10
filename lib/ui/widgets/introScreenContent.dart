@@ -78,7 +78,7 @@ class ScreenContent extends StatelessWidget {
                                         width: screenWidth * .03,
                                         height: screenHeight * .05,
                                         decoration: BoxDecoration(
-                                            border: Border.all(color: grey),
+                                            border: Border.all(color: kGrey),
                                             shape: BoxShape.circle,
                                             color: index == _index
                                                 ? gold

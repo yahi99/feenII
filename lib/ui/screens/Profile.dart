@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               width: 180,
               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               decoration: BoxDecoration(
-                border: Border.all(color: grey, width: 2),
+                border: Border.all(color: kGrey, width: 2),
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(25),
                     bottomLeft: Radius.circular(25)),
@@ -323,7 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(email != null ? email : email = "البريد الاكتروني",
-                style: TextStyle(fontWeight: FontWeight.w500, color: grey)),
+                style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
           SizedBox(
             width: screenSize.width,
@@ -339,7 +339,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(phone != null ? phone : phone = "رقم الهاتف",
-                style: TextStyle(fontWeight: FontWeight.w500, color: grey)),
+                style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
           SizedBox(
             width: screenSize.width,
@@ -355,7 +355,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(status != null ? status : status = "الحالة",
-                style: TextStyle(fontWeight: FontWeight.w500, color: grey)),
+                style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
           SizedBox(
             width: screenSize.width,
@@ -371,7 +371,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
             subtitle: Text(bank != null ? bank : bank = "لم يحدد بعد",
-                style: TextStyle(fontWeight: FontWeight.w500, color: grey)),
+                style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
         ],
       ),

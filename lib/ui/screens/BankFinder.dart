@@ -244,7 +244,7 @@ class _AtmFinder extends State<BankFinder> {
                 child: Row(
                   children: <Widget>[
                     IconButton(
-                      icon: Icon(Ionicons.md_arrow_round_forward, color: grey),
+                      icon: Icon(Ionicons.md_arrow_round_forward, color: kGrey),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -259,7 +259,7 @@ class _AtmFinder extends State<BankFinder> {
                           fontFamily: 'Cairo',
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          color: grey,
+                          color: kGrey,
                         ),
                       ),
                       height: screenSize.height * .07,

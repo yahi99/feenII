@@ -47,8 +47,10 @@ Widget backWidget(BuildContext context, String title, Color color) {
             onPressed: () => Navigator.of(context).pop()),
         SizedBox(width: 2),
         Text(title,
-            style:
-                Theme.of(context).textTheme.headline6.copyWith(color: color)),
+            style: Theme.of(context)
+                .textTheme
+                .headline6
+                .copyWith(color: color, fontWeight: FontWeight.bold)),
       ],
     ),
   );
@@ -69,7 +71,7 @@ loadResult(BuildContext context) {
           return DecoratedBox(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: index.isEven ? kPrimaryColor : grey),
+                color: index.isEven ? kPrimaryColor : kGrey),
           );
         },
       ),
@@ -87,7 +89,7 @@ Widget noResult() {
           return DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: index.isEven ? error : grey,
+              color: index.isEven ? error : kGrey,
             ),
           );
         },
@@ -141,7 +143,7 @@ const kStepsFontStyle = TextStyle(
 );
 
 const kLabelTextStyle = TextStyle(
-    color: grey,
+    color: kGrey,
     fontWeight: FontWeight.bold,
     fontFamily: 'Cairo',
     fontSize: 16.0);
@@ -168,7 +170,7 @@ const kRoundedDecoration = InputDecoration(
   border:
       OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
   enabledBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: grey),
+    borderSide: BorderSide(color: kGrey),
     borderRadius: BorderRadius.all(Radius.circular(10)),
   ),
   focusedBorder: OutlineInputBorder(

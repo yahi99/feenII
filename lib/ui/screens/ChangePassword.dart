@@ -186,7 +186,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             textDirection: TextDirection.rtl,
             child: AlertDialog(
               title: Text('هل انت متأكد من تعديل كلمة المرور؟',
-                  style: TextStyle(fontFamily: 'Cairo', color: grey)),
+                  style: TextStyle(fontFamily: 'Cairo', color: kGrey)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               actions: <Widget>[

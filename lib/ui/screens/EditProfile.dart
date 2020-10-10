@@ -197,7 +197,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
             textDirection: TextDirection.rtl,
             child: AlertDialog(
               title: Text('هل انت متأكد من تعديل البيانات؟',
-                  style: TextStyle(color: grey)),
+                  style: TextStyle(color: kGrey)),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               actions: <Widget>[
