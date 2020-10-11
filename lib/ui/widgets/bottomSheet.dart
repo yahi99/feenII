@@ -4,18 +4,24 @@ import 'package:feen/ui/widgets/constants.dart';
 import 'package:feen/ui/widgets/custom_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/components/rating/gf_rating.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_button_type.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import 'colors.dart';
 
 class BottomSheetWidget extends StatefulWidget {
   final List<PlaceResult> placeList;
+  final Position position;
+  final Function(Position) navigation;
+  final Function(LatLng) moveCamera;
 
-  BottomSheetWidget({this.placeList});
+  BottomSheetWidget(
+      {this.placeList, this.position, this.navigation, this.moveCamera});
 
   @override
   _BottomSheetWidgetState createState() => _BottomSheetWidgetState();
@@ -29,6 +35,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
       atmVicinity = 'عنوان الماكينة',
       atmStatus = 'حاللة الماكينة',
       atmDistance = '0.0';
+  PlaceResult _placeResult = PlaceResult();
 
   bool get isExpanded => state?.isExpanded ?? false;
 
@@ -92,20 +99,18 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
       scrollDirection: Axis.horizontal,
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: () {
-            setState(() {
-              atmDistance = place[index].distance;
-              atmVicinity = place[index].vicinity;
-              atmStatus = place[index].enoughMoney;
-            });
-          },
+          onTap: () => setState(() {
+            _placeResult = place[index];
+            widget.moveCamera(LatLng(place[index].geometry.location.lat,
+                place[index].geometry.location.long));
+          }),
           child: Container(
-            margin: EdgeInsets.fromLTRB(8, 8, 8, 4),
             width: screenSize.width * 0.85,
+            margin: EdgeInsets.fromLTRB(8, 8, 8, 4),
             decoration: BoxDecoration(
+                color: kSilver,
                 borderRadius:
-                    BorderRadius.horizontal(left: Radius.circular(20)),
-                border: Border.all(color: Colors.grey)),
+                    BorderRadius.horizontal(left: Radius.circular(20))),
             child: Row(
               children: <Widget>[
                 Expanded(
@@ -121,7 +126,7 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                 Expanded(
                   flex: 70,
                   child: Padding(
-                    padding: const EdgeInsets.all(4),
+                    padding: EdgeInsets.all(4),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -195,6 +200,9 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
               await controller.hide();
               Future.delayed(Duration(milliseconds: 2000), () {
                 controller.show();
+                widget.navigation(Position(
+                    latitude: _placeResult.geometry.location.lat,
+                    longitude: _placeResult.geometry.location.long));
                 controller.rebuild();
               });
             },
@@ -249,15 +257,19 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  atmDetails(atmStatus, Ionicons.ios_people, context),
+                  atmDetails(_placeResult.crowd ?? 'حالة الماكينة',
+                      Ionicons.ios_people, context),
                   SizedBox(height: 16),
-                  atmDetails(atmStatus, Ionicons.ios_cash, context),
+                  atmDetails(_placeResult.enoughMoney ?? 'حالة الماكينة',
+                      Ionicons.ios_cash, context),
                   SizedBox(height: 16),
-                  atmDetails(atmType, Icons.atm, context),
+                  atmDetails(
+                      _placeResult.type ?? 'نوع الماكينة', Icons.atm, context),
                   SizedBox(height: 16),
-                  atmDetails(atmVicinity, Icons.location_on, context),
+                  atmDetails(_placeResult.vicinity ?? 'عنوان الماكينة',
+                      Icons.location_on, context),
                   SizedBox(height: 16),
-                  atmDetails("على بعد  " + atmDistance + "  كم",
+                  atmDetails("على بعد  ${_placeResult.distance ?? '0.0'}  كم",
                       FlutterIcons.map_marker_distance_mco, context),
                   SizedBox(height: 16),
                   divider

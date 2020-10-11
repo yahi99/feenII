@@ -9,6 +9,7 @@ class ApiProvider {
   Client _client = Client();
 
   Future retrieveAtm(Location location, String bankName) async {
+    print(bankName + " -----");
     final baseURL =
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
         "location=${location.lat},${location.long}&rankby=distance&type=atm&keyword=$bankName"

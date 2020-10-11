@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -45,7 +46,6 @@ Widget backWidget(BuildContext context, String title, Color color) {
         IconButton(
             icon: Icon(Ionicons.md_arrow_round_forward, color: color),
             onPressed: () => Navigator.of(context).pop()),
-        SizedBox(width: 2),
         Text(title,
             style: Theme.of(context)
                 .textTheme
@@ -96,6 +96,16 @@ Widget noResult() {
       ),
     ),
   );
+}
+
+double calculateDistance(
+    double srcLat, double srcLng, double distLat, double distLng) {
+  var p = 0.017453292519943295;
+  var c = cos;
+  var a = 0.5 -
+      c((distLat - srcLat) * p) / 2 +
+      c(srcLat * p) * c(distLat * p) * (1 - c((distLng - srcLng) * p)) / 2;
+  return 12742 * asin(sqrt(a));
 }
 
 const kTitleTextStyle = TextStyle(

@@ -89,9 +89,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     final screenHeight = (MediaQuery.of(context).size.height -
         MediaQuery.of(context).padding.top);
     return FancyDrawerWrapper(
-      backgroundColor: Colors.white,
       controller: _controller,
-      cornerRadius: 25,
+      cornerRadius: 30,
       hideOnContentTap: true,
       drawerItems: <Widget>[
         Column(
@@ -102,6 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
               decoration: BoxDecoration(
                 border: Border.all(color: kGrey, width: 2),
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                     topRight: Radius.circular(25),
                     bottomLeft: Radius.circular(25)),

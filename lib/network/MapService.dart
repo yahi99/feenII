@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:feen/models/PlaceResponse.dart';
@@ -47,7 +46,6 @@ class MapService {
     DatabaseService.renewTriesNumber();
     objectAtm.clear();
     atmKey = "null";
-    checkKeyword(bankName);
     String _url =
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
         "location=$latitude,$longitude&rankby=distance&type=atm&keyword=$bankName&key=$apiKey";
@@ -58,7 +56,6 @@ class MapService {
         places =
             PlaceResponse.parseResults(data['results']).cast<PlaceResult>();
         for (int i = 0; i < places.length; i++) {
-          getAtmName(i);
           getSimultaneousData(bankName, i, places[i].placeId);
         }
         if (operationType.contains("إيداع")) {
@@ -88,7 +85,6 @@ class MapService {
     objectBank = new List<PlaceResult>();
     objectBank.clear();
     bankKey = "null";
-    checkKeyword(bankName);
     String _url =
         "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
         "location=$latitude,$longitude&rankby=distance&type=bank&keyword=$bankName&key=$apiKey";
@@ -99,9 +95,7 @@ class MapService {
         bankKey = "Done";
         places =
             PlaceResponse.parseResults(data['results']).cast<PlaceResult>();
-        for (int i = 0; i < places.length; i++) {
-          getBankName(i);
-        }
+        for (int i = 0; i < places.length; i++) {}
       } else if (data['status'] == ("NOT_FOUND") ||
           data['status'] == ("ZERO_RESULTS")) {
         bankKey = "NOT_FOUND OR ZERO_RESULTS";
@@ -133,70 +127,5 @@ class MapService {
               objectAtm[index].enoughMoney = doc.data['enoughMoney'];
 //              objectAtm[index].rating = doc.data['rating'];
             }));
-  }
-
-  static getAtmName(int x) {
-    if (places[x].name.contains(keyword1) ||
-        places[x].name.contains(keyword2) ||
-        places[x].name.contains(keyword3) ||
-        places[x].name.contains(keyword4) ||
-        places[x].name.contains(keyword5) ||
-        places[x].name.contains(keyword6)) {
-      atmKey = "found";
-      places[x].distance = calculateDistance(latitude, longitude,
-              places[x].geometry.location.lat, places[x].geometry.location.long)
-          .toStringAsFixed(1);
-      objectAtm.add(places[x]);
-    }
-  }
-
-  static getBankName(int x) {
-    if (places[x].name.contains(keyword1) ||
-        places[x].name.contains(keyword2) ||
-        places[x].name.contains(keyword3) ||
-        places[x].name.contains(keyword4) ||
-        places[x].name.contains(keyword5) ||
-        places[x].name.contains(keyword6)) {
-      bankKey = "found";
-      places[x].distance = calculateDistance(latitude, longitude,
-              places[x].geometry.location.lat, places[x].geometry.location.long)
-          .toStringAsFixed(1);
-      objectBank.add(places[x]);
-    }
-  }
-
-  static checkKeyword(String bankName) {
-    if (bankName == "البنك الأهلي المصري") {
-      keyword1 = "NBE";
-      keyword2 = "البنك الأهلي المصر";
-      keyword3 = "البنك الاهلي المصر";
-      keyword4 = "National Bank Of Egypt";
-      keyword5 = "Ahly";
-      keyword6 = "Nbe";
-    } else if (bankName == "بنك مصر") {
-      keyword1 = "Misr Bank";
-      keyword2 = "بنك مصر";
-      keyword3 = "Banque Misr";
-      keyword4 = "Bank of Egypt";
-      keyword5 = "maser";
-      keyword6 = "Banquemisr";
-    } else if (bankName == "بنك القاهرة") {
-      keyword1 = "Cairo Bank";
-      keyword2 = "بنك القاهرة";
-      keyword3 = "Banque du caire";
-      keyword4 = "El Qahra";
-      keyword5 = "El Kahra";
-      keyword6 = "Al Qahera";
-    }
-  }
-
-  static double calculateDistance(
-      double srcLat, double srcLng, double distLat, double distLng) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((distLat - srcLat) * p) / 2 +
-        c(srcLat * p) * c(distLat * p) * (1 - c((distLng - srcLng) * p)) / 2;
-    return 12742 * asin(sqrt(a));
   }
 }
