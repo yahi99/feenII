@@ -21,32 +21,19 @@ class BuildMapWidget extends StatefulWidget {
 
 //Sheben, 30.5720681  ---- 31.0085726
 class _BuildMapWidget extends State<BuildMapWidget> {
-  static GoogleMapController _controller;
-  static Position _currentPosition;
+  GoogleMapController _controller;
+  Position _currentPosition;
   PolylinePoints polylinePoints;
   List<LatLng> polylineCoordinates = [];
   Map<PolylineId, Polyline> polylines = {};
   List<Marker> markers = <Marker>[];
-  static BitmapDescriptor offlinePin, withdrawPin, depositPin, pin;
+  BitmapDescriptor offlinePin, withdrawPin, depositPin, pin;
+  int trialNumber = 0;
 
   @override
   void initState() {
     super.initState();
     _currentPosition = widget.position;
-    _getCurrentLocation();
-  }
-
-  _getCurrentLocation() {
-    Geolocator()
-      ..getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.bestForNavigation,
-      ).then((position) {
-        if (mounted) {
-          setState(() => _currentPosition = position);
-        }
-      }).catchError((e) {
-        print(e);
-      });
   }
 
   _getLocation() {
@@ -94,13 +81,11 @@ class _BuildMapWidget extends State<BuildMapWidget> {
               backgroundColor: Colors.grey,
               child: Icon(Ionicons.ios_locate, color: Colors.white))),
       BottomSheetWidget(
-        placeList: widget.place,
-        position: widget.position,
-        navigation: (destination) =>
-            setState(() => _createPolylines(widget.position, destination)),
-        moveCamera: (latLong) => setState(() => moveCamera(latLong ??
-            LatLng(widget.position.latitude, widget.position.longitude))),
-      )
+          placeList: widget.place,
+          position: widget.position,
+          navigation: (destination) =>
+              setState(() => drawRoute(widget.position, destination)),
+          moveCamera: (latLong) => setState(() => moveCamera(latLong))),
     ]);
   }
 
@@ -111,6 +96,7 @@ class _BuildMapWidget extends State<BuildMapWidget> {
   }
 
   setPin(List<PlaceResult> place) {
+    print(place.toList());
     markers.clear();
     place.forEach((element) {
       if (element.rating.toString().startsWith("0")) {
@@ -170,7 +156,7 @@ class _BuildMapWidget extends State<BuildMapWidget> {
     }
   }
 
-  _createPolylines(Position start, Position destination) async {
+  drawRoute(Position start, Position destination) async {
     polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       apiKey,

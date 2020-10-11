@@ -5,7 +5,6 @@ import 'package:feen/network/Auth.dart';
 import 'package:feen/network/Database.dart';
 import 'package:feen/ui/widgets/ProfileHeader.dart';
 import 'package:feen/ui/widgets/colors.dart';
-import 'package:feen/ui/widgets/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ import 'package:getwidget/types/gf_button_type.dart';
 
 import 'Dashboard.dart';
 import 'EditProfile.dart';
-import 'History.dart';
 import 'Login.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -39,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   _ProfileScreenState({this.userData, this.infoChanged});
 
   static String firstName, lastName, email;
-  static String phone, bank = "لم يحدد بعد", status;
+  static String phone, bank, status;
   static bool historyKey = false, informationKey = true;
   FancyDrawerController _controller;
 
@@ -119,8 +117,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                     color: kPrimaryColor,
                     position: GFPosition.end,
                     icon: Icon(FlutterIcons.account_edit_outline_mco),
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.white),
+                    textStyle: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Colors.white),
                   ),
                   GFButton(
                     fullWidthButton: true,
@@ -129,8 +129,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                     color: kPrimaryColor,
                     position: GFPosition.end,
                     icon: Icon(FlutterIcons.alert_box_outline_mco),
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.white),
+                    textStyle: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Colors.white),
                   ),
                   GFButton(
                     fullWidthButton: true,
@@ -139,8 +141,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                     color: kPrimaryColor,
                     position: GFPosition.end,
                     icon: Icon(FlutterIcons.contacts_ant),
-                    textStyle: TextStyle(
-                        fontWeight: FontWeight.w600, color: Colors.white),
+                    textStyle: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(color: Colors.white),
                   ),
                 ],
               ),
@@ -161,8 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 type: GFButtonType.outline2x,
                 position: GFPosition.end,
                 icon: Icon(FlutterIcons.exit_to_app_mdi),
-                textStyle: TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.black87),
+                textStyle: Theme.of(context).textTheme.button,
               ),
             ),
           ],
@@ -186,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 32, 16, 0),
+                    padding: EdgeInsets.fromLTRB(0, 32, 16, 0),
                     child: Row(
                       children: <Widget>[
                         IconButton(
@@ -267,7 +270,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                 ],
               ),
-              _widget(),
+              informationKey == true ? informationWidget() : historyWidget(),
             ],
           ),
         ),
@@ -275,54 +278,26 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _widget() {
-    if (informationKey == true) {
-      return informationWidget();
-    } else if (historyKey == true) {
-      return historyWidget();
-    } else {
-      return informationWidget();
-    }
-  }
-
-  Widget historyWidget() {
-    if (DatabaseService.historyKey == "found") {
-      return History();
-    } else if (DatabaseService.historyKey == "notFound") {
-      return noResult();
-    } else {
-      return loadResult(context);
-    }
-  }
-
-  Widget informationWidget() {
+  informationWidget() {
     final screenSize = MediaQuery.of(context).size;
-    return new Container(
-      alignment: Alignment.center,
-      height: screenSize.height * 0.5,
-      width: screenSize.width,
-      decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black12),
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          color: Colors.white),
-      margin: EdgeInsets.symmetric(horizontal: 10),
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      margin: EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ListTile(
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(
-                  Icons.email,
-                  color: kPrimaryColor,
-                )),
+                child: Icon(Icons.email, color: kGrey)),
             title: Text(
               "البريد الاكتروني",
               style:
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
-            subtitle: Text(email != null ? email : email = "البريد الاكتروني",
+            subtitle: Text(email ?? "البريد الاكتروني",
                 style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
           SizedBox(
@@ -332,13 +307,13 @@ class _ProfileScreenState extends State<ProfileScreen>
           ListTile(
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.smartphone, color: kPrimaryColor)),
+                child: Icon(Icons.smartphone, color: kGrey)),
             title: Text(
               "رقم الهاتف",
               style:
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
-            subtitle: Text(phone != null ? phone : phone = "رقم الهاتف",
+            subtitle: Text(phone ?? "رقم الهاتف",
                 style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
           SizedBox(
@@ -348,13 +323,13 @@ class _ProfileScreenState extends State<ProfileScreen>
           ListTile(
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.business_center, color: kPrimaryColor)),
+                child: Icon(Icons.business_center, color: kGrey)),
             title: Text(
-              "الحالة",
+              "حالة العمل",
               style:
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
-            subtitle: Text(status != null ? status : status = "الحالة",
+            subtitle: Text(status ?? "حالة العمل",
                 style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
           SizedBox(
@@ -364,13 +339,76 @@ class _ProfileScreenState extends State<ProfileScreen>
           ListTile(
             leading: CircleAvatar(
                 backgroundColor: Colors.transparent,
-                child: Icon(FlutterIcons.bank_faw, color: kPrimaryColor)),
+                child: Icon(FlutterIcons.bank_faw, color: kGrey)),
             title: Text(
               "البنك التابع له",
               style:
                   TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
             ),
-            subtitle: Text(bank != null ? bank : bank = "لم يحدد بعد",
+            subtitle: Text(bank ?? "لم يحدد بعد",
+                style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  historyWidget() {
+    final screenSize = MediaQuery.of(context).size;
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      margin: EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          SizedBox(
+            width: screenSize.width,
+            child: Divider(height: 0.5, thickness: 1.0, color: Colors.black12),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.smartphone, color: kGrey)),
+            title: Text(
+              "رقم الهاتف",
+              style:
+                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
+            ),
+            subtitle: Text(phone ?? "رقم الهاتف",
+                style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
+          ),
+          SizedBox(
+            width: screenSize.width,
+            child: Divider(height: 0.5, thickness: 1.0, color: Colors.black12),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.business_center, color: kGrey)),
+            title: Text(
+              "حالة العمل",
+              style:
+                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
+            ),
+            subtitle: Text(status ?? "حالة العمل",
+                style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
+          ),
+          SizedBox(
+            width: screenSize.width,
+            child: Divider(height: 0.5, thickness: 1.0, color: Colors.black12),
+          ),
+          ListTile(
+            leading: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                child: Icon(FlutterIcons.bank_faw, color: kGrey)),
+            title: Text(
+              "البنك التابع له",
+              style:
+                  TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w500),
+            ),
+            subtitle: Text(bank ?? "لم يحدد بعد",
                 style: TextStyle(fontWeight: FontWeight.w500, color: kGrey)),
           ),
         ],

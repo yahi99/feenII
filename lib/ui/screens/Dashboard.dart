@@ -1,12 +1,12 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:feen/blocs/AtmBloc.dart';
+import 'package:feen/blocs/BankBloc.dart';
 import 'package:feen/models/userData.dart';
 import 'package:feen/network/Auth.dart';
 import 'package:feen/network/Database.dart';
 import 'package:feen/ui/screens/AtmFinder.dart';
 import 'package:feen/ui/widgets/animation/FadeAnimation.dart';
 import 'package:feen/ui/widgets/colors.dart';
-import 'package:feen/ui/widgets/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -63,14 +63,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   int restSurveys;
   Position currentPosition;
-  Color s1 = lightGreen;
-  Color s2 = lightGreen;
-  Color s3 = lightGreen;
-  Color s4 = lightGreen;
-  Color s5 = lightGreen;
-  Color s6 = lightGreen;
-  Color s7 = lightGreen;
-  Color s8 = lightGreen;
+  List<int> surveyList = List();
+
   DatabaseService databaseService = DatabaseService();
 
   @override
@@ -91,6 +85,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Navigator.of(context).pop(true);
         super.dispose();
       });
+    AtmBloc.atmList = List();
+    BankBloc.bankList = List();
   }
 
   getCurrentUser() async {
@@ -100,12 +96,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     restSurveys = 8 - int.parse(userSurvey);
-    final screenHeight = (MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top);
-    final screenWidth = (MediaQuery.of(context).size.width -
-        MediaQuery.of(context).padding.top);
-    String freeUserStatus =
-        "متبقى لك " + restSurveys.toString() + " من اصل 8 للوصول للحساب المميز";
+    final screenSize = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: _onBackPressed,
       child: Scaffold(
@@ -113,34 +104,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
           body: Directionality(
             textDirection: TextDirection.rtl,
             child: Stack(children: <Widget>[
-              FadeAnimation(
-                1,
-                Container(
-                  alignment: Alignment.topLeft,
-                  margin: EdgeInsets.fromLTRB(8, 32, 0, 0),
-                  child: IconButton(
-                      icon: Icon(Ionicons.md_notifications_outline,
-                          color: gold, size: 32),
-                      onPressed: null),
-                ),
-              ),
+              Positioned(
+                  top: 32,
+                  left: 8,
+                  child: FloatingActionButton(
+                      mini: true,
+                      elevation: 0,
+                      onPressed: null,
+                      child: Icon(Ionicons.md_notifications_outline,
+                          color: Colors.amber))),
               Padding(
-                padding: EdgeInsets.only(right: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 32),
-                    FadeAnimation(
-                      1,
-                      Text('اهلا بك',
-                          style: normalText.apply(color: Colors.white)),
+                padding: EdgeInsets.only(right: 16, top: 32),
+                child: FadeAnimation(
+                  1,
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            text: "اهلا بك",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .copyWith(color: Colors.amber)),
+                        TextSpan(
+                            text: "\nالصفحة الرئيسية",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold)),
+                      ],
                     ),
-                    FadeAnimation(
-                      1.1,
-                      Text('الصفحة الرئيسية',
-                          style: title.apply(color: Colors.white)),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               Column(
@@ -148,59 +144,58 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(16, screenHeight * 0.03, 16, 8),
-                    height: screenHeight * 0.2,
-                    child: FadeAnimation(
-                      1.2,
-                      Card(
-                          color: Colors.white,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                    margin: EdgeInsets.fromLTRB(
+                        16, screenSize.height * 0.03, 16, 8),
+                    height: screenSize.height * 0.2,
+                    child: Card(
+                      elevation: 8,
+                      shadowColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: FadeAnimation(
+                        1.2,
+                        Container(
+                          padding: EdgeInsets.only(right: 8, left: 4),
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Text("سجل الاستبيانات",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline5
+                                              .copyWith(color: kPrimaryColor)),
+                                      Container(
+                                          height: screenSize.height * 0.05,
+                                          width: screenSize.width * 0.6,
+                                          child: survey()),
+                                      Text(
+                                        'أكمل جميع الاستبيانات لترقية حسابك',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            .copyWith(
+                                                fontWeight: FontWeight.bold),
+                                      )
+                                    ]),
                                 Container(
-                                    padding: EdgeInsets.only(right: 16),
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: AutoSizeText(
-                                              "سجل الاستبيانات",
-                                              minFontSize: 24,
-                                              style: TextStyle(
-                                                  fontFamily: 'Cairo',
-                                                  fontWeight: FontWeight.bold,
-                                                  color: kPrimaryColor),
-                                            ),
-                                          ),
-                                          Expanded(child: survey()),
-                                          Expanded(
-                                            child: AutoSizeText(
-                                              freeUserStatus,
-                                              maxFontSize: 12,
-                                              style: TextStyle(
-                                                  fontFamily: 'Cairo',
-                                                  color: kPrimaryColor),
-                                            ),
-                                          )
-                                        ])),
-                                Container(
-                                    padding: EdgeInsets.only(left: 4),
-                                    child: CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        radius: 45,
-                                        child: Image.asset(
-                                            'assets/icons/survey.png')))
-                              ])),
+                                  child: CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      radius: 45,
+                                      child: Image.asset(
+                                          'assets/icons/survey.png')),
+                                )
+                              ]),
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.03),
+                  SizedBox(height: screenSize.height * 0.03),
                   SingleChildScrollView(
                     child: Container(
                       decoration: BoxDecoration(
@@ -227,7 +222,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                   AtmFinder(currentPosition)));
                                     }),
                                   ),
-                                  SizedBox(width: screenWidth * 0.05),
+                                  SizedBox(width: screenSize.width * 0.05),
                                   Expanded(
                                     child: cardWidget(
                                         'أفضل بنك', 'assets/icons/bank.png',
@@ -241,7 +236,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                 ]),
                               ),
-                              SizedBox(height: screenHeight * 0.02),
+                              SizedBox(height: screenSize.height * 0.02),
                               FadeAnimation(
                                 1.8,
                                 Row(children: <Widget>[
@@ -255,7 +250,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 userData: currentUser,
                                                 infoChanged: false)));
                                   })),
-                                  SizedBox(width: screenWidth * 0.05),
+                                  SizedBox(width: screenSize.width * 0.05),
                                   Expanded(
                                       child: cardWidget("إرشادات و تعليمات",
                                           'assets/icons/tips.png', () {
@@ -279,62 +274,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget survey() {
     int p = int.tryParse(userSurvey);
-    if (p == 1) {
-      s1 = kPrimaryColor;
-    } else if (p == 2) {
-      s1 = kPrimaryColor;
-      s2 = kPrimaryColor;
-    } else if (p == 3) {
-      s1 = kPrimaryColor;
-      s2 = kPrimaryColor;
-      s3 = kPrimaryColor;
-    } else if (p == 4) {
-      s1 = kPrimaryColor;
-      s2 = kPrimaryColor;
-      s3 = kPrimaryColor;
-      s4 = kPrimaryColor;
-    } else if (p == 5) {
-      s1 = kPrimaryColor;
-      s2 = kPrimaryColor;
-      s3 = kPrimaryColor;
-      s4 = kPrimaryColor;
-      s5 = kPrimaryColor;
-    } else if (p == 6) {
-      s1 = kPrimaryColor;
-      s2 = kPrimaryColor;
-      s3 = kPrimaryColor;
-      s4 = kPrimaryColor;
-      s5 = kPrimaryColor;
-      s6 = kPrimaryColor;
-    } else if (p == 7) {
-      s1 = kPrimaryColor;
-      s2 = kPrimaryColor;
-      s3 = kPrimaryColor;
-      s4 = kPrimaryColor;
-      s5 = kPrimaryColor;
-      s6 = kPrimaryColor;
-      s7 = kPrimaryColor;
-    } else if (p == 8) {
-      s1 = kPrimaryColor;
-      s2 = kPrimaryColor;
-      s3 = kPrimaryColor;
-      s4 = kPrimaryColor;
-      s6 = kPrimaryColor;
-      s7 = kPrimaryColor;
-      s8 = kPrimaryColor;
-    }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Icon(Ionicons.ios_paper, color: s1),
-        Icon(Ionicons.ios_paper, color: s2),
-        Icon(Ionicons.ios_paper, color: s3),
-        Icon(Ionicons.ios_paper, color: s4),
-        Icon(Ionicons.ios_paper, color: s5),
-        Icon(Ionicons.ios_paper, color: s6),
-        Icon(Ionicons.ios_paper, color: s7),
-        Icon(Ionicons.ios_paper, color: s8),
-      ],
+
+    return ListView.builder(
+      itemCount: 10,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Icon(Ionicons.ios_paper,
+                color: index <= 4 ? kPrimaryColor : kLightGreen),
+          ],
+        );
+      },
     );
   }
 
@@ -345,9 +297,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Card(
           clipBehavior: Clip.hardEdge,
           color: Colors.white,
-          elevation: 4,
+          elevation: 8,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25))),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
           child: InkWell(
               onTap: onTap,
               child: Column(
@@ -357,7 +309,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         backgroundColor: Colors.transparent,
                         radius: 50,
                         child: Image.asset(img)),
-                    Text(title, style: subtitle.apply(fontSizeFactor: 0.8))
+                    Text(title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(color: kPrimaryColor))
                   ]))),
     );
   }
@@ -369,14 +325,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             textDirection: TextDirection.rtl,
             child: AlertDialog(
               content: Text('هل تريد حقًا الخروج من التطبيق؟',
-                  style: TextStyle(fontFamily: 'Cairo', color: kGrey)),
+                  style: Theme.of(context).textTheme.subtitle1),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               backgroundColor: kSilver,
               actions: <Widget>[
                 FlatButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: new Text('لا',
+                  child: Text('لا',
                       style: TextStyle(
                           fontFamily: 'Cairo',
                           color: kPrimaryColor,
@@ -387,7 +343,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     Navigator.of(context).pop(true);
                     super.dispose();
                   },
-                  child: new Text('نعم',
+                  child: Text('نعم',
                       style: TextStyle(
                           fontFamily: 'Cairo',
                           color: kPrimaryColor,

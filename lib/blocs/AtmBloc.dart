@@ -7,42 +7,78 @@ import 'package:feen/repository/PlaceRepository.dart';
 import 'package:feen/ui/widgets/constants.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AtmBloc implements Bloc {
   Repository _repository;
   PublishSubject atmFetcher;
   static List<PlaceResult> atmList;
   List<String> keyword = List();
+  int trialNumber = 0;
 
   Stream<List<PlaceResult>> get streamAtmList => atmFetcher.stream;
 
   AtmBloc(Location location, String bankName, String transaction) {
     _repository = Repository();
-    // atmList = List<PlaceResult>();
     checkKeyword(bankName);
     atmFetcher = PublishSubject<List<PlaceResult>>();
-    fetchAtm(location, bankName, transaction);
+    _checkTrialNo(location, bankName, transaction);
   }
 
-  fetchAtm(Location location, String bankName, String transaction) async {
-    print(bankName + "  " + transaction);
-    List<PlaceResult> atmResponse =
-        await _repository.fetchAtm(location, bankName);
-    atmResponse = atmResponse.where((place) {
+  fetchRealTimeAtm(
+      Location location, String bankName, String transaction) async {
+    List<PlaceResult> _result = await _repository.fetchAtm(location, bankName);
+    _result = _result.where((place) {
       place.distance = calculateDistance(location.lat, location.long,
               place.geometry.location.lat, place.geometry.location.long)
           .toStringAsFixed(1);
       return keyword.any((element) => place.name.contains(element));
     }).toList(growable: true);
     if (transaction == 'إيداع') {
-      atmResponse =
-          atmResponse.where((atm) => atm.rating == 5.0).toList(growable: true);
-      print(atmResponse.length);
-      Fluttertoast.showToast(
-          msg: 'وجدنا ${atmResponse.length.toString()} ماكينات');
+      _result =
+          _result.where((atm) => atm.rating == 5.0).toList(growable: true);
+      atmFetcher.sink.add(_result);
+    } else {
+      atmFetcher.sink.add(_result);
     }
-    atmFetcher.sink.add(atmResponse);
-    // atmList = atmResponse;
+    Fluttertoast.showToast(msg: 'وجدنا ${_result.length.toString()} ماكينات');
+    atmList = List<PlaceResult>();
+    atmList = _result;
+    _incrementCounter();
+  }
+
+  fetchCachedAtm(String transaction) async {
+    if (atmList.length == 0)
+      Fluttertoast.showToast(
+          msg:
+              "عذرًا، لقد استهلكت المحاولات المجانية، سيتم تجديدها في اليوم التالي.",
+          toastLength: Toast.LENGTH_LONG);
+
+    if (transaction == 'إيداع') {
+      atmList =
+          atmList.where((atm) => atm.rating == 5.0).toList(growable: true);
+      atmFetcher.sink.add(atmList);
+    } else {
+      atmFetcher.sink.add(atmList);
+    }
+  }
+
+  _incrementCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    trialNumber = (prefs.getInt('trialNumber') ?? 0) + 1;
+    prefs.setInt('trialNumber', trialNumber);
+    print(trialNumber.toString() + "   ***********");
+  }
+
+  _checkTrialNo(Location location, String bankName, String transaction) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    trialNumber = (prefs.getInt('trialNumber') ?? 0);
+    print(trialNumber.toString() + "   ///////");
+    if (trialNumber < 3) {
+      fetchRealTimeAtm(location, bankName, transaction);
+    } else {
+      fetchCachedAtm(transaction);
+    }
   }
 
   checkKeyword(String bankName) {
@@ -80,12 +116,6 @@ class AtmBloc implements Bloc {
         'Al Qahera',
       ];
     }
-  }
-
-  bool getAtmName(PlaceResult place) {
-    print(place.name);
-
-    return keyword.any((element) => place.name.contains(element));
   }
 
   @override

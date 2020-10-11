@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/components/rating/gf_rating.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_button_type.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -30,11 +29,7 @@ class BottomSheetWidget extends StatefulWidget {
 class _BottomSheetWidgetState extends State<BottomSheetWidget> {
   SheetController controller;
   SheetState state;
-  double rating = 0.0;
-  String atmType = 'نوع الماكينة',
-      atmVicinity = 'عنوان الماكينة',
-      atmStatus = 'حاللة الماكينة',
-      atmDistance = '0.0';
+
   PlaceResult _placeResult = PlaceResult();
 
   bool get isExpanded => state?.isExpanded ?? false;
@@ -153,16 +148,14 @@ class _BottomSheetWidgetState extends State<BottomSheetWidget> {
                                 .caption
                                 .copyWith(height: 1.5),
                             overflow: TextOverflow.ellipsis),
-                        GFRating(
-                            value: place[index].rating,
-                            size: 15,
-                            color: Colors.amber,
-                            itemCount: 5,
-                            allowHalfRating: true,
-                            borderColor: Colors.black38,
-                            onChanged: (value) {
-                              setState(() => rating = value);
-                            }),
+                        // GFRating(
+                        //     value: place[index].rating,
+                        //     size: 15,
+                        //     color: Colors.amber,
+                        //     itemCount: 5,
+                        //     allowHalfRating: true,
+                        //     borderColor: Colors.black38,
+                        //     ),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[

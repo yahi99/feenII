@@ -201,7 +201,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                                             MainAxisAlignment.start,
                                         children: <Widget>[
                                           Radio(
-                                            activeColor: lightGreen,
+                                            activeColor: kLightGreen,
                                             value: 0,
                                             groupValue: _selected,
                                             onChanged: (value) {
@@ -213,7 +213,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                                           Text('متقاعد',
                                               style: kLabelTextStyle),
                                           Radio(
-                                            activeColor: lightGreen,
+                                            activeColor: kLightGreen,
                                             value: 1,
                                             groupValue: _selected,
                                             onChanged: (value) {

@@ -15,6 +15,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AtmFinder extends StatefulWidget {
   final Position position;
@@ -28,7 +29,8 @@ class AtmFinder extends StatefulWidget {
 
 class _AtmFinder extends State<AtmFinder> {
   AtmBloc _atmBloc;
-  String bankName = "البنك الأهلي المصري", transaction = "سحب", imgUrl;
+  String bankName = "البنك الأهلي المصري", transaction = "سحب";
+
   List<String> bankNameList = [
     "البنك الأهلي المصري    ",
     "بنك مصر",
@@ -38,6 +40,7 @@ class _AtmFinder extends State<AtmFinder> {
     "سحب",
     "إيداع",
   ];
+  int trialNumber = 0;
 
   @override
   void initState() {
@@ -47,7 +50,6 @@ class _AtmFinder extends State<AtmFinder> {
     // } catch (e) {
     //   print(" **************");
     // }
-
     _atmBloc = AtmBloc(
         Location(
             lat: widget.position.latitude, long: widget.position.longitude),
@@ -150,6 +152,13 @@ class _AtmFinder extends State<AtmFinder> {
             }),
       ),
     );
+  }
+
+  _resetCounter() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setInt('trialNumber', 0);
+    });
   }
 
 // Notifications

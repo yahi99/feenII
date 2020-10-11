@@ -12,9 +12,6 @@ class Tips extends StatefulWidget {
 class _Tips extends State<Tips> {
   @override
   Widget build(BuildContext context) {
-    final screenHeight = (MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top);
-
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: Directionality(
@@ -23,7 +20,7 @@ class _Tips extends State<Tips> {
           children: <Widget>[
             backWidget(context, "إرشادات و تعليمات", Colors.white),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 160, 0, 0),
+              padding: EdgeInsets.fromLTRB(0, 120, 0, 0),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,

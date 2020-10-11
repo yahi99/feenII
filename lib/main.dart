@@ -27,7 +27,7 @@ class Feen extends StatelessWidget {
           scaffoldBackgroundColor: kBackgroundColor,
           primaryColor: kPrimaryColor,
           accentColor: kPrimaryColor,
-          textSelectionColor: lightGreen,
+          textSelectionColor: kLightGreen,
           cursorColor: kPrimaryColor,
           textSelectionHandleColor: gold,
           fontFamily: 'Cairo',
