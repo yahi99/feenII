@@ -23,119 +23,78 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = (MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top);
+    final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(16, 32, 16, 16),
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Ionicons.md_arrow_round_forward,
-                          color: kPrimaryColor),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    SizedBox(width: 2),
-                    Container(
-                      child: AutoSizeText(
-                        "الخطوة الأولى",
-                        maxFontSize: 40,
-                        minFontSize: 20.0,
-                        style: TextStyle(
-                          fontFamily: 'Cairo',
-                          fontWeight: FontWeight.bold,
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              backWidget(context, 'الخطوة الأولى', kPrimaryColor),
+              Container(
+                  child: Image.asset('assets/icons/lock.png'),
+                  height: screenSize.height * .2),
+              Center(
+                child: AutoSizeText(
+                  'تغيير كلمة المرور',
+                  textAlign: TextAlign.center,
+                  style: kSloganTextStyle.apply(color: kPrimaryColor),
+                  minFontSize: 14,
+                  maxFontSize: 22,
                 ),
-                Container(
-                    child: Image.asset('lib/assets/icons/lock.png'),
-                    height: screenHeight * .2),
-                Center(
-                  child: AutoSizeText(
-                    'تغيير كلمة المرور',
-                    textAlign: TextAlign.center,
-                    style: kSloganTextStyle.apply(color: kPrimaryColor),
-                    minFontSize: 14,
-                    maxFontSize: 22,
-                  ),
+              ),
+              SizedBox(height: screenSize.height * 0.02),
+              Card(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(vertical: 12),
-                  height: screenHeight * 0.4,
-                  child: Card(
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.black12),
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: AutoSizeText(
-                            'سوف يتم ارسال رسالة إلى بريدك الألكتروني تحتوي على رابط لتغيير كلمة المرور.',
-                            textAlign: TextAlign.center,
-                            style: kSloganTextStyle.copyWith(
-                              color: Colors.black45,
-                            ),
-                            minFontSize: 14,
-                            maxFontSize: 18,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        TextFieldWidget(
-                          validator: (value) {
-                            return EmailValidator.validate(value);
-                          },
-                          onchanged: (value) {
-                            email = value;
-                          },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                          'سوف يتم ارسال رسالة إلى بريدك الألكتروني تحتوي على رابط لتغيير كلمة المرور.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.subtitle1),
+                      SizedBox(height: 20),
+                      TextFieldWidget(
+                          validator: (value) => EmailValidator.validate(value),
+                          onchanged: (value) => email = value,
                           labeltext: 'البريد الألكتروني',
                           prefixIcon: FlutterIcons.email_outline_mco,
                           obsecureText: false,
-                          inputType: TextInputType.emailAddress,
-                        ),
-                      ],
-                    ),
+                          inputType: TextInputType.emailAddress),
+                    ],
                   ),
                 ),
-                SizedBox(height: 16),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: RoundedButton(
-                    onPressed: () {
-                      authService.resetPassword(email);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return LoginScreen();
-                          },
-                        ),
-                      );
-                    },
-                    color: kPrimaryColor,
-                    textColor: Colors.white,
-                    title: 'التالي',
-                    leftMarginValue: 0,
-                  ),
-                )
-              ],
-            ),
+              ),
+              SizedBox(height: 16),
+              Container(
+                margin: EdgeInsets.only(left: 16),
+                alignment: Alignment.centerLeft,
+                child: RoundedButton(
+                  onPressed: () {
+                    authService.resetPassword(email);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginScreen(),
+                      ),
+                    );
+                  },
+                  color: kPrimaryColor,
+                  textColor: Colors.white,
+                  title: 'التالي',
+                  leftMarginValue: 0,
+                ),
+              )
+            ],
           ),
         ),
       ),

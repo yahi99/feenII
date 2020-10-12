@@ -1,13 +1,12 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:feen/models/userData.dart';
 import 'package:feen/network/Auth.dart';
 import 'package:feen/network/Database.dart';
 import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/screens/Profile.dart';
 import 'package:feen/ui/widgets/ProfileHeader.dart';
-import 'package:feen/ui/widgets/actionedLabel.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
+import 'package:feen/ui/widgets/constants.dart';
 import 'package:feen/ui/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -43,59 +42,52 @@ class _EditDataScreenState extends State<EditDataScreen> {
       key: _formKey,
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 32, 16, 0),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Ionicons.md_arrow_round_forward,
-                            color: kPrimaryColor),
-                        onPressed: () => Navigator.pop(context),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                backWidget(context, "تعديل البيانات", kPrimaryColor),
+                Avatar(
+                    image: AssetImage('assets/icons/user.png'),
+                    borderWidth: MediaQuery.of(context).size.height * .005,
+                    bordercolor: Colors.white,
+                    backgroundcolor: Colors.white,
+                    radius: screenHeight * .08),
+                SizedBox(height: screenHeight * .02),
+                Container(
+                    height: screenHeight * 0.6,
+                    child: Card(
+                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      elevation: 8,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
                       ),
-                      SizedBox(width: 2),
-                      Container(
-                        child: AutoSizeText(
-                          "تعديل البيانات",
-                          maxFontSize: 40,
-                          minFontSize: 20.0,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Avatar(
-                      image: AssetImage('assets/icons/user.png'),
-                      borderWidth: MediaQuery.of(context).size.height * .005,
-                      bordercolor: kPrimaryColor,
-                      backgroundcolor: Colors.white,
-                      radius: screenHeight * .08),
-                  SizedBox(height: 8),
-                  Container(
-                      height: screenHeight * 0.6,
-                      child: Card(
-                        elevation: 8,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black12),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              TextFieldWidget(
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            TextFieldWidget(
+                              onchanged: (value) {
+                                firstName = value;
+                              },
+                              labeltext: 'الأسم الأول',
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return null;
+                                } else {
+                                  return NameValidator.validate(value);
+                                }
+                              },
+                              prefixIcon: FlutterIcons.user_circle_faw5s,
+                            ),
+                            TextFieldWidget(
                                 onchanged: (value) {
-                                  firstName = value;
+                                  lastName = value;
                                 },
-                                labeltext: 'الأسم الأول',
+                                labeltext: 'أسم العائلة',
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return null;
@@ -103,86 +95,72 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     return NameValidator.validate(value);
                                   }
                                 },
-                                prefixIcon: FlutterIcons.user_circle_faw5s,
-                              ),
-                              TextFieldWidget(
-                                  onchanged: (value) {
-                                    lastName = value;
-                                  },
-                                  labeltext: 'أسم العائلة',
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return null;
-                                    } else {
-                                      return NameValidator.validate(value);
-                                    }
-                                  },
-                                  prefixIcon: FlutterIcons.user_circle_faw5s),
-                              TextFieldWidget(
-                                  onchanged: (value) {
-                                    email = value;
-                                  },
-                                  labeltext: 'البريد الألكتروني',
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return null;
-                                    } else {
-                                      return EmailValidator.validate(value);
-                                    }
-                                  },
-                                  prefixIcon: FlutterIcons.email_outline_mco),
-                              TextFieldWidget(
+                                prefixIcon: FlutterIcons.user_circle_faw5s),
+                            TextFieldWidget(
+                                onchanged: (value) {
+                                  email = value;
+                                },
+                                labeltext: 'البريد الألكتروني',
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return null;
                                   } else {
-                                    return PhoneNumberValidator.validate(value);
+                                    return EmailValidator.validate(value);
                                   }
                                 },
-                                onchanged: (value) {
-                                  phone = value;
-                                },
-                                labeltext: 'رقم الهاتف',
-                                prefixIcon: FlutterIcons.mobile_phone_faw,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: ActionedLabel(
-                                    requiredtext: 'تغيير كلمة المرور',
-                                    onTap: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (builder) =>
-                                                ChangePasswordScreen())),
-                                    fontSize: 18,
-                                    alignment: TextAlign.start),
-                              ),
-                            ],
-                          ),
+                                prefixIcon: FlutterIcons.email_outline_mco),
+                            TextFieldWidget(
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return null;
+                                } else {
+                                  return PhoneNumberValidator.validate(value);
+                                }
+                              },
+                              onchanged: (value) {
+                                phone = value;
+                              },
+                              labeltext: 'رقم الهاتف',
+                              prefixIcon: FlutterIcons.mobile_phone_faw,
+                            ),
+                            FlatButton(
+                              child: Text('تغيير كلمة المرور',
+                                  style: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500)),
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) =>
+                                          ChangePasswordScreen())),
+                            ),
+                          ],
                         ),
-                      )),
-                  SizedBox(height: 16),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: RoundedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          if (firstName != null ||
-                              lastName != null ||
-                              email != null ||
-                              phone != null) {
-                            confirmation();
-                          }
+                      ),
+                    )),
+                SizedBox(height: 16),
+                Container(
+                  margin: EdgeInsets.only(left: 16),
+                  alignment: Alignment.centerLeft,
+                  child: RoundedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        if (firstName != null ||
+                            lastName != null ||
+                            email != null ||
+                            phone != null) {
+                          confirmation();
                         }
-                      },
-                      title: 'تأكيد',
-                      textColor: Colors.white,
-                      color: kPrimaryColor,
-                      leftMarginValue: 0,
-                    ),
+                      }
+                    },
+                    title: 'تأكيد',
+                    textColor: Colors.white,
+                    color: kPrimaryColor,
+                    leftMarginValue: 0,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

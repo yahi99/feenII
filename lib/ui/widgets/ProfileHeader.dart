@@ -32,9 +32,8 @@ class ProfileHeader extends StatelessWidget {
             Avatar(
               image: avatar,
               radius: radius,
-              backgroundcolor: Colors.white,
-              bordercolor: kPrimaryColor,
-              borderWidth: MediaQuery.of(context).size.height * .005,
+              bordercolor: kSilver,
+              borderWidth: 2,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.height * .01,

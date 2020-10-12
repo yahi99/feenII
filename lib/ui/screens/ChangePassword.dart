@@ -1,10 +1,10 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:feen/models/userData.dart';
 import 'package:feen/network/Auth.dart';
 import 'package:feen/network/Database.dart';
 import 'package:feen/network/Validate.dart';
 import 'package:feen/ui/widgets/button_widget.dart';
 import 'package:feen/ui/widgets/colors.dart';
+import 'package:feen/ui/widgets/constants.dart';
 import 'package:feen/ui/widgets/textfield_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,101 +52,67 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       key: _formKey,
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 32, 16, 0),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Ionicons.md_arrow_round_forward,
-                            color: kPrimaryColor),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      SizedBox(width: 2),
-                      Container(
-                        child: AutoSizeText(
-                          "تغيير كلمة المرور",
-                          maxFontSize: 40,
-                          minFontSize: 20.0,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                backWidget(context, "تغيير كلمة المرور", kPrimaryColor),
+                Container(
                     height: screenHeight * 0.2,
-                    child: Image.asset('assets/icons/lock.png'),
-                  ),
-                  SizedBox(
-                    height: screenHeight * .02,
-                  ),
-                  Container(
-                      child: Card(
+                    child: Image.asset('assets/icons/lock.png')),
+                SizedBox(height: screenHeight * .02),
+                Container(
+                  child: Card(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
                     elevation: 8,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.black12),
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                    ),
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           PasswordFieldWidget(
-                            validator: (value) {
-                              return PasswordValidator.validate(value);
-                            },
-                            onchanged: (value) {
-                              password = value;
-                            },
+                            validator: (value) =>
+                                PasswordValidator.validate(value),
+                            onchanged: (value) => password = value,
                             labeltext: 'كلمة المرور القديمة',
                             obsecureText: obsecureText,
                             prefixIcon: Ionicons.ios_lock,
                             suffixIcon: obsecureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             onpressed: () {
                               setState(() => obsecureText = !obsecureText);
                             },
                           ),
                           PasswordFieldWidget(
-                            validator: (value) {
-                              return PasswordValidator.validate(value);
-                            },
-                            onchanged: (value) {
-                              password = value;
-                            },
+                            validator: (value) =>
+                                PasswordValidator.validate(value),
+                            onchanged: (value) => password = value,
                             labeltext: 'كلمة المرور الجديدة',
                             obsecureText: obsecureText,
                             prefixIcon: Ionicons.ios_lock,
                             suffixIcon: obsecureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             onpressed: () {
                               setState(() => obsecureText = !obsecureText);
                             },
                           ),
                           PasswordFieldWidget(
-                            validator: (value) {
-                              return ConfirmPasswordValidator.validate(
-                                  password, value);
-                            },
-                            onchanged: (value) {
-                              confirmPassword = value;
-                            },
+                            validator: (value) =>
+                                ConfirmPasswordValidator.validate(
+                                    password, value),
+                            onchanged: (value) => confirmPassword = value,
                             labeltext: 'تأكيد كلمة المرور الجديدة',
                             obsecureText: obsecureText,
                             prefixIcon: Ionicons.ios_lock,
                             suffixIcon: obsecureText
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             onpressed: () {
                               setState(() => obsecureText = !obsecureText);
                             },
@@ -154,24 +120,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         ],
                       ),
                     ),
-                  )),
-                  SizedBox(height: 16),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: RoundedButton(
+                  ),
+                ),
+                SizedBox(height: 16),
+                Container(
+                  margin: EdgeInsets.only(left: 16),
+                  alignment: Alignment.centerLeft,
+                  child: RoundedButton(
                       onPressed: () async {
-                        if (_formKey.currentState.validate()) {
-                          confirmation();
-                        }
+                        if (_formKey.currentState.validate()) confirmation();
                       },
                       title: 'التالي',
                       color: kPrimaryColor,
                       textColor: Colors.white,
-                      leftMarginValue: 0,
-                    ),
-                  ),
-                ],
-              ),
+                      leftMarginValue: 0),
+                ),
+              ],
             ),
           ),
         ),
@@ -186,7 +150,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             textDirection: TextDirection.rtl,
             child: AlertDialog(
               title: Text('هل انت متأكد من تعديل كلمة المرور؟',
-                  style: TextStyle(fontFamily: 'Cairo', color: kGrey)),
+                  style: Theme.of(context).textTheme.subtitle1),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
               actions: <Widget>[

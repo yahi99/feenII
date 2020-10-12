@@ -1,10 +1,10 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fancy_drawer/fancy_drawer.dart';
 import 'package:feen/models/userData.dart';
 import 'package:feen/network/Auth.dart';
 import 'package:feen/network/Database.dart';
 import 'package:feen/ui/widgets/ProfileHeader.dart';
 import 'package:feen/ui/widgets/colors.dart';
+import 'package:feen/ui/widgets/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -188,32 +188,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 32, 16, 0),
-                    child: Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Ionicons.md_arrow_round_forward,
-                              color: Colors.white),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        SizedBox(width: 2),
-                        Container(
-                          child: AutoSizeText(
-                            "الصفحة الشخصية",
-                            maxFontSize: 40,
-                            minFontSize: 20.0,
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          height: screenHeight * .07,
-                        ),
-                      ],
-                    ),
-                  ),
+                  backWidget(context, "الصفحة الشخصية", Colors.white),
                   ProfileHeader(
                     avatar: AssetImage('assets/icons/user.png'),
                     firstName: firstName != null ? firstName : "االاسم الأول",
@@ -226,46 +201,35 @@ class _ProfileScreenState extends State<ProfileScreen>
                     child: IconButton(
                         icon: Icon(FlutterIcons.md_menu_ion,
                             color: gold, size: 32),
-                        onPressed: () {
-                          _controller.toggle();
-                        }),
+                        onPressed: () => _controller.toggle()),
                   ),
                 ],
               ),
               Row(
-                textDirection: TextDirection.rtl,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   FlatButton(
                     color: informationKey ? kSilver : Colors.white,
-                    onPressed: () {
-                      setState(() {
-                        informationKey = !informationKey;
-                        historyKey = !historyKey;
-                      });
-                    },
-                    child: AutoSizeText(
+                    onPressed: () => setState(() {
+                      informationKey = !informationKey;
+                      historyKey = !historyKey;
+                    }),
+                    child: Text(
                       'المعملومات الشخصية',
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
-                      maxFontSize: 16,
-                      minFontSize: 14,
                     ),
                   ),
                   FlatButton(
                     color: historyKey ? kSilver : Colors.white,
-                    onPressed: () {
-                      setState(() {
-                        historyKey = !historyKey;
-                        informationKey = !informationKey;
-                      });
-                    },
-                    child: AutoSizeText(
+                    onPressed: () => setState(() {
+                      historyKey = !historyKey;
+                      informationKey = !informationKey;
+                    }),
+                    child: Text(
                       'السجل',
                       style: TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
-                      maxFontSize: 16,
-                      minFontSize: 14,
                     ),
                   ),
                 ],

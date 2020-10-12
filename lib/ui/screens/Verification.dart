@@ -5,7 +5,6 @@ import 'package:feen/ui/widgets/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_entry_text_field/pin_entry_text_field.dart';
 
@@ -34,48 +33,20 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = (MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top);
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(16, 32, 16, 16),
+        child: Directionality(
+          textDirection: TextDirection.rtl,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Directionality(
-                textDirection: TextDirection.rtl,
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(Ionicons.md_arrow_round_forward,
-                          color: kPrimaryColor),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                    SizedBox(width: 2),
-                    Container(
-                      child: AutoSizeText(
-                        "الخطوة الثانية",
-                        maxFontSize: 40,
-                        minFontSize: 20.0,
-                        style: TextStyle(
-                          fontFamily: 'Cairo',
-                          fontWeight: FontWeight.bold,
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              backWidget(context, "الخطوة الثانية", kPrimaryColor),
               Container(
-                  child: Image.asset('lib/assets/icons/valid.png'),
-                  height: screenHeight * .2),
+                  child: Image.asset('assets/icons/valid.png'),
+                  height: screenSize.height * .2),
               Center(
                 child: AutoSizeText(
                   'تأكيد رقم الهاتف',
@@ -84,47 +55,41 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   maxFontSize: 22,
                 ),
               ),
-              SizedBox(height: 16),
-              Center(
-                child: AutoSizeText(
-                  'يرجى التحقق من رسائلك بحثًا عن رمز أمان مكون من ستة أرقام وإدخله في الاسفل',
-                  textAlign: TextAlign.center,
-                  style: kSloganTextStyle.copyWith(
-                    color: Colors.black38,
-                  ),
-                  minFontSize: 14,
-                  maxFontSize: 18,
-                ),
+              SizedBox(height: screenSize.height * 0.02),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                    'يرجى التحقق من رسائلك بحثًا عن رمز أمان مكون من ستة أرقام وإدخله في الاسفل',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.subtitle1),
               ),
-              SizedBox(height: 16),
+              SizedBox(height: screenSize.height * 0.02),
               Card(
+                margin: EdgeInsets.symmetric(horizontal: 16),
                 elevation: 8,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.black12),
                   borderRadius: BorderRadius.all(Radius.circular(15)),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(24),
+                  padding: EdgeInsets.all(24),
                   child: PinEntryTextField(
                     fields: 6,
-                    fontSize: screenHeight * .03,
-                    fieldWidth: screenWidth * .085,
-                    onSubmit: (String pin) {
-                      _smsController.text = pin;
-                    },
+                    fontSize: screenSize.height * .03,
+                    fieldWidth: screenSize.width * .085,
+                    onSubmit: (String pin) => _smsController.text = pin,
                   ),
                 ),
               ),
               SizedBox(height: 16),
               Container(
+                margin: EdgeInsets.only(left: 16),
                 alignment: Alignment.topLeft,
                 child: RoundedButton(
-                  onPressed: _signInWithPhoneNumber,
-                  color: kPrimaryColor,
-                  textColor: Colors.white,
-                  title: 'التالي',
-                  leftMarginValue: 0,
-                ),
+                    onPressed: _signInWithPhoneNumber,
+                    color: kPrimaryColor,
+                    textColor: Colors.white,
+                    title: 'التالي',
+                    leftMarginValue: 0),
               ),
             ],
           ),

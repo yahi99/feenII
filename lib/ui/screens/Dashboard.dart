@@ -334,9 +334,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   onPressed: () => Navigator.of(context).pop(false),
                   child: Text('لا',
                       style: TextStyle(
-                          fontFamily: 'Cairo',
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold)),
+                          color: kPrimaryColor, fontWeight: FontWeight.bold)),
                 ),
                 FlatButton(
                   onPressed: () {
@@ -345,9 +343,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   },
                   child: Text('نعم',
                       style: TextStyle(
-                          fontFamily: 'Cairo',
-                          color: kPrimaryColor,
-                          fontWeight: FontWeight.bold)),
+                          color: kPrimaryColor, fontWeight: FontWeight.bold)),
                 ),
               ],
             ),

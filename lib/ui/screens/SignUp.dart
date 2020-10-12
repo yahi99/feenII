@@ -49,222 +49,150 @@ class _SignUpScreen extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = (MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top);
+    final screenSize = MediaQuery.of(context).size;
 
     return Form(
         key: _formKey,
         child: Scaffold(
           body: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(16, 32, 16, 0),
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          IconButton(
-                            icon: Icon(Ionicons.md_arrow_round_forward,
-                                color: kPrimaryColor),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          SizedBox(width: 2),
-                          Container(
-                            child: AutoSizeText(
-                              "الخطوة الثالثة",
-                              maxFontSize: 40,
-                              minFontSize: 20.0,
-                              style: TextStyle(
-                                fontFamily: 'Cairo',
-                                fontWeight: FontWeight.bold,
-                                color: kPrimaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                          child: Image.asset('lib/assets/icons/form.png'),
-                          height: screenHeight * .2),
-                      AutoSizeText(
-                        'إنشاء حساب',
-                        minFontSize: 16,
-                        maxFontSize: 26,
-                        textAlign: TextAlign.center,
-                        style: kSloganTextStyle.copyWith(
-                            fontSize: 26.0, color: kPrimaryColor),
-                      ),
-                      SizedBox(height: 8),
-                      Container(
-                        height: screenHeight * 0.5,
-                        child: Card(
-                            elevation: 8,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black12),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15)),
-                            ),
-                            child: SingleChildScrollView(
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: Padding(
-                                  padding: EdgeInsets.all(4),
-                                  child: Column(
-                                    children: <Widget>[
-                                      TextFieldWidget(
-                                        validator: (value) {
-                                          return NameValidator.validate(value);
-                                        },
-                                        onchanged: (value) {
-                                          firstName = value;
-                                        },
-                                        labeltext: 'الأسم الاول',
-                                        hintText: 'الأسم الأول',
-                                        obsecureText: false,
-                                        prefixIcon:
-                                            FlutterIcons.user_circle_faw5s,
-                                      ),
-                                      TextFieldWidget(
-                                        validator: (value) {
-                                          return NameValidator.validate(value);
-                                        },
-                                        onchanged: (value) {
-                                          lastName = value;
-                                        },
-                                        labeltext: 'أسم العائلة',
-                                        hintText: 'أسم العائلة',
-                                        obsecureText: false,
-                                        prefixIcon:
-                                            FlutterIcons.user_circle_faw5s,
-                                      ),
-                                      TextFieldWidget(
-                                        validator: (value) {
-                                          return EmailValidator.validate(value);
-                                        },
-                                        onchanged: (value) {
-                                          email = value;
-                                        },
-                                        labeltext: 'البريد الألكتروني',
-                                        hintText: 'abcd@example.com',
-                                        inputType: TextInputType.emailAddress,
-                                        obsecureText: false,
-                                        prefixIcon:
-                                            FlutterIcons.email_outline_mco,
-                                      ),
-                                      PasswordFieldWidget(
-                                        validator: (value) {
-                                          return PasswordValidator.validate(
-                                              value);
-                                        },
-                                        onchanged: (value) {
-                                          password = value;
-                                        },
-                                        labeltext: 'كلمة المرور',
-                                        obsecureText: obsecureText,
-                                        prefixIcon: Ionicons.ios_lock,
-                                        suffixIcon: obsecureText
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                        onpressed: () {
-                                          setState(() {
-                                            obsecureText = !obsecureText;
-                                          });
-                                        },
-                                      ),
-                                      PasswordFieldWidget(
-                                        validator: (value) {
-                                          return ConfirmPasswordValidator
-                                              .validate(password, value);
-                                        },
-                                        labeltext: 'تأكيد كلمة المرور',
-                                        onchanged: (value) {
-                                          confirmPassword = value;
-                                        },
-                                        obsecureText: obsecureText,
-                                        prefixIcon: Ionicons.ios_lock,
-                                        suffixIcon: obsecureText
-                                            ? Icons.visibility
-                                            : Icons.visibility_off,
-                                        onpressed: () {
-                                          setState(() {
-                                            obsecureText = !obsecureText;
-                                          });
-                                        },
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Radio(
-                                            activeColor: kLightGreen,
-                                            value: 0,
-                                            groupValue: _selected,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _selected = value;
-                                              });
-                                            },
-                                          ),
-                                          Text('متقاعد',
-                                              style: kLabelTextStyle),
-                                          Radio(
-                                            activeColor: kLightGreen,
-                                            value: 1,
-                                            groupValue: _selected,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                _selected = value;
-                                              });
-                                            },
-                                          ),
-                                          Text(
-                                            'تعمل',
-                                            style: kLabelTextStyle,
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )),
-                      ),
-                      SizedBox(height: 16),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: RoundedButton(
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              if (_selected == 0) {
-                                job = 'متقاعد';
-                              } else {
-                                job = 'تعمل';
-                              }
-                              dynamic result = await _auth.createAuthUser(email,
-                                  password, firstName, lastName, phone, job);
-                              if (result != null) {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (builder) =>
-                                            IntroductionScreen()));
-                              }
-                            }
-                          },
-                          color: kPrimaryColor,
-                          textColor: Colors.white,
-                          title: 'التالي',
-                          leftMarginValue: 0,
-                        ),
-                      ),
-                    ],
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  backWidget(context, 'الخطوة الثالثة', kPrimaryColor),
+                  Container(
+                      child: Image.asset('assets/icons/form.png'),
+                      height: screenSize.height * .2),
+                  AutoSizeText(
+                    'إنشاء حساب',
+                    minFontSize: 16,
+                    maxFontSize: 26,
+                    textAlign: TextAlign.center,
+                    style: kSloganTextStyle.copyWith(
+                        fontSize: 26.0, color: kPrimaryColor),
                   ),
-                ),
+                  SizedBox(height: screenSize.height * 0.02),
+                  Card(
+                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      elevation: 8,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Column(
+                          children: <Widget>[
+                            TextFieldWidget(
+                              validator: (value) =>
+                                  NameValidator.validate(value),
+                              onchanged: (value) => firstName = value,
+                              labeltext: 'الأسم الاول',
+                              hintText: 'الأسم الأول',
+                              obsecureText: false,
+                              prefixIcon: FlutterIcons.user_circle_faw5s,
+                            ),
+                            TextFieldWidget(
+                              validator: (value) =>
+                                  NameValidator.validate(value),
+                              onchanged: (value) => lastName = value,
+                              labeltext: 'أسم العائلة',
+                              hintText: 'أسم العائلة',
+                              obsecureText: false,
+                              prefixIcon: FlutterIcons.user_circle_faw5s,
+                            ),
+                            TextFieldWidget(
+                              validator: (value) =>
+                                  EmailValidator.validate(value),
+                              onchanged: (value) => email = value,
+                              labeltext: 'البريد الألكتروني',
+                              hintText: 'abcd@example.com',
+                              inputType: TextInputType.emailAddress,
+                              obsecureText: false,
+                              prefixIcon: FlutterIcons.email_outline_mco,
+                            ),
+                            PasswordFieldWidget(
+                              validator: (value) =>
+                                  PasswordValidator.validate(value),
+                              onchanged: (value) => password = value,
+                              labeltext: 'كلمة المرور',
+                              obsecureText: obsecureText,
+                              prefixIcon: Ionicons.ios_lock,
+                              suffixIcon: obsecureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              onpressed: () =>
+                                  setState(() => obsecureText = !obsecureText),
+                            ),
+                            PasswordFieldWidget(
+                              validator: (value) =>
+                                  ConfirmPasswordValidator.validate(
+                                      password, value),
+                              labeltext: 'تأكيد كلمة المرور',
+                              onchanged: (value) => confirmPassword = value,
+                              obsecureText: obsecureText,
+                              prefixIcon: Ionicons.ios_lock,
+                              suffixIcon: obsecureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              onpressed: () =>
+                                  setState(() => obsecureText = !obsecureText),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Radio(
+                                  activeColor: kLightGreen,
+                                  value: 0,
+                                  groupValue: _selected,
+                                  onChanged: (value) {
+                                    setState(() => _selected = value);
+                                  },
+                                ),
+                                Text('متقاعد', style: kLabelTextStyle),
+                                Radio(
+                                  activeColor: kLightGreen,
+                                  value: 1,
+                                  groupValue: _selected,
+                                  onChanged: (value) {
+                                    setState(() => _selected = value);
+                                  },
+                                ),
+                                Text('تعمل', style: kLabelTextStyle),
+                              ],
+                            )
+                          ],
+                        ),
+                      )),
+                  SizedBox(height: 16),
+                  Container(
+                    margin: EdgeInsets.only(left: 16),
+                    alignment: Alignment.centerLeft,
+                    child: RoundedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState.validate()) {
+                            if (_selected == 0) {
+                              job = 'متقاعد';
+                            } else {
+                              job = 'تعمل';
+                            }
+                            dynamic result = await _auth.createAuthUser(email,
+                                password, firstName, lastName, phone, job);
+                            if (result != null) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (builder) =>
+                                          IntroductionScreen()));
+                            }
+                          }
+                        },
+                        color: kPrimaryColor,
+                        textColor: Colors.white,
+                        title: 'التالي',
+                        leftMarginValue: 0),
+                  ),
+                ],
               ),
             ),
           ),

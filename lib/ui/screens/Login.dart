@@ -42,163 +42,128 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = (MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top);
+    final screenSize = MediaQuery.of(context).size;
     return Form(
       key: _formKey,
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, screenHeight * 0.15, 16, 8),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  FadeAnimation(
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                FadeAnimation(
                     1,
                     Container(
+                        margin: EdgeInsets.only(top: screenSize.height * 0.2),
                         child: Image(
-                            image: AssetImage('assets/icons/feen Logo.png')),
-                        height: screenHeight * .2),
-                  ),
-                  SizedBox(height: 8),
-                  FadeAnimation(
-                    1.2,
-                    AutoSizeText(
-                      'وفر وقتك. وفر مجهودك.',
+                            image: AssetImage('assets/icons/feenLogo.png')),
+                        height: screenSize.height * .2)),
+                SizedBox(height: 8),
+                FadeAnimation(
+                  1.2,
+                  AutoSizeText('وفر وقتك. وفر مجهودك.',
                       minFontSize: 12.0,
                       maxFontSize: 18.0,
                       textAlign: TextAlign.center,
-                      style: kSloganTextStyle,
-                    ),
-                  ),
-                  SizedBox(height: screenHeight * 0.03),
-                  FadeAnimation(
-                    1.4,
-                    Container(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Card(
-                          elevation: 8,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.black12),
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                      style: kSloganTextStyle),
+                ),
+                SizedBox(height: screenSize.height * 0.03),
+                FadeAnimation(
+                  1.4,
+                  Card(
+                    elevation: 8,
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          FadeAnimation(
+                            1.6,
+                            TextFieldWidget(
+                                validator: (value) =>
+                                    EmailValidator.validate(value),
+                                onchanged: (value) => email = value,
+                                labeltext: 'البريد الألكتروني',
+                                hintText: 'abcd@example.com',
+                                inputType: TextInputType.emailAddress,
+                                obsecureText: false,
+                                prefixIcon: FlutterIcons.user_circle_faw5s),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: <Widget>[
-                                FadeAnimation(
-                                  1.6,
-                                  TextFieldWidget(
-                                    validator: (value) {
-                                      return EmailValidator.validate(value);
-                                    },
-                                    onchanged: (value) {
-                                      email = value;
-                                    },
-                                    labeltext: 'البريد الألكتروني',
-                                    hintText: 'abcd@example.com',
-                                    inputType: TextInputType.emailAddress,
-                                    obsecureText: false,
-                                    prefixIcon: FlutterIcons.user_circle_faw5s,
-                                  ),
-                                ),
-                                FadeAnimation(
-                                  1.8,
-                                  PasswordFieldWidget(
-                                    onchanged: (value) {
-                                      pass = value;
-                                    },
-                                    labeltext: 'كلمة المرور',
-                                    validator: (value) {
-                                      return PasswordValidator.validate(value);
-                                    },
-                                    obsecureText: obsecureText,
-                                    prefixIcon: Ionicons.ios_lock,
-                                    suffixIcon: obsecureText
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    onpressed: () {
-                                      setState(() {
-                                        obsecureText = !obsecureText;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                FadeAnimation(
-                                  2.0,
-                                  FlatButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return ForgotPasswordScreen();
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    child: Text(
-                                      'نسيت كلمة السر؟',
-                                      style: TextStyle(
-                                          fontFamily: 'Cairo',
-                                          color: Colors.black87),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          FadeAnimation(
+                            1.8,
+                            PasswordFieldWidget(
+                              onchanged: (value) => pass = value,
+                              labeltext: 'كلمة المرور',
+                              validator: (value) =>
+                                  PasswordValidator.validate(value),
+                              obsecureText: obsecureText,
+                              prefixIcon: Ionicons.ios_lock,
+                              suffixIcon: obsecureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              onpressed: () =>
+                                  setState(() => obsecureText = !obsecureText),
                             ),
                           ),
-                        )),
-                  ),
-                  SizedBox(height: screenHeight * 0.025),
-                  FadeAnimation(
-                    2.2,
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: RoundedButton(
-                          onPressed: () async {
-                            if (_formKey.currentState.validate()) {
-                              signIn(email, pass);
-                            }
-                          },
-                          title: 'تسجيل الدخول',
-                          textColor: Colors.white,
-                          color: kPrimaryColor,
-                          leftMarginValue: 0),
+                          FadeAnimation(
+                            2.0,
+                            FlatButton(
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordScreen())),
+                              child: Text('نسيت كلمة السر؟'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  FadeAnimation(
-                    2.4,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'ليس لديك حساب؟',
-                          style: TextStyle(
-                              fontFamily: 'Cairo', color: Colors.black87),
-                        ),
-                        FlatButton(
-                            onPressed: () {
-                              Navigator.pushNamed(
-                                  context, PhoneInsertionScreen.id);
-                            },
-                            child: Text(
-                              'إنشاء حساب',
-                              style: TextStyle(
-                                  fontFamily: 'Cairo',
-                                  color: kPrimaryColor,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                      ],
-                    ),
+                ),
+                SizedBox(height: screenSize.height * 0.025),
+                FadeAnimation(
+                  2.2,
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    alignment: Alignment.centerLeft,
+                    child: RoundedButton(
+                        onPressed: () async {
+                          if (_formKey.currentState.validate())
+                            signIn(email, pass);
+                        },
+                        title: 'تسجيل الدخول',
+                        textColor: Colors.white,
+                        color: kPrimaryColor,
+                        leftMarginValue: 0),
                   ),
-                ],
-              ),
+                ),
+                FadeAnimation(
+                  2.4,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('ليس لديك حساب؟'),
+                      SizedBox(width: 8),
+                      InkWell(
+                          onTap: () => Navigator.pushNamed(
+                              context, PhoneInsertionScreen.id),
+                          child: Text(
+                            'إنشاء حساب',
+                            style: TextStyle(
+                                color: kPrimaryColor,
+                                fontWeight: FontWeight.w600),
+                          )),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -206,8 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // ignore: missing_return
-  Future<String> signIn(String email, String password) async {
+  Future signIn(String email, String password) async {
     String errorMessage;
     try {
       await FirebaseAuth.instance

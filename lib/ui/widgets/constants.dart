@@ -60,7 +60,8 @@ loadResult(BuildContext context) {
   return AlertDialog(
     insetPadding: EdgeInsets.all(8),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-    title: Text('رجاء الأنتظار..', style: TextStyle(color: kPrimaryColor)),
+    title: Text('رجاء الأنتظار..',
+        textAlign: TextAlign.right, style: TextStyle(color: kPrimaryColor)),
     titlePadding: EdgeInsets.all(10),
     contentPadding: EdgeInsets.only(bottom: 30),
     content: Container(
@@ -190,9 +191,9 @@ const kRoundedDecoration = InputDecoration(
 );
 
 const List<String> imagePath = [
-  "lib/assets/images/crowd.png",
-  "lib/assets/images/map.png",
-  "lib/assets/images/atm.png",
+  "assets/images/crowd.png",
+  "assets/images/map.png",
+  "assets/images/atm.png",
 ];
 
 const List<String> description = [

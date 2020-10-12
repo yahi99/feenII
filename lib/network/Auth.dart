@@ -33,7 +33,6 @@ class Authnetwork {
     });
   }
 
-  // ignore: missing_return
   Future<String> createAuthUser(String email, String password, String fname,
       String lname, String phone, String job) async {
     String errorMessage;
@@ -49,17 +48,17 @@ class Authnetwork {
       _currentUser = await addUserData(
           result.user.uid, fname, lname, result.user.email, phone, job);
     } catch (error) {
-      print(error.code);
-      switch (error.code) {
-        case "ERROR_WEAK_PASSWORD":
-          errorMessage = "كلمة المرور ضعيفة";
-          break;
-        case "ERROR_EMAIL_ALREADY_IN_USE":
-          errorMessage = "البريد الأاكتروني مستخدم من قبل";
-          break;
-        default:
-          errorMessage = "اعد المحاولة لاحقا";
-      }
+      print(error);
+      // switch (error.code) {
+      //   case "ERROR_WEAK_PASSWORD":
+      //     errorMessage = "كلمة المرور ضعيفة";
+      //     break;
+      //   case "ERROR_EMAIL_ALREADY_IN_USE":
+      //     errorMessage = "البريد الأاكتروني مستخدم من قبل";
+      //     break;
+      //   default:
+      //     errorMessage = "اعد المحاولة لاحقا";
+      // }
       if (errorMessage != null) {
         Fluttertoast.showToast(msg: errorMessage);
         return null;

@@ -45,21 +45,20 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
         children: <Widget>[
           ScreenContent(),
           RoundedButton(
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return DashboardScreen(userSurvey: currentUser.survey);
-                  },
-                ),
-              );
-            },
-            leftMarginValue: 0,
-            title: 'ابدأ',
-            color: kPrimaryColor,
-            textColor: Colors.white,
-          ),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return DashboardScreen(userSurvey: currentUser.survey);
+                    },
+                  ),
+                );
+              },
+              leftMarginValue: 0,
+              title: 'ابدأ',
+              color: kPrimaryColor,
+              textColor: Colors.white),
         ],
       ),
     );

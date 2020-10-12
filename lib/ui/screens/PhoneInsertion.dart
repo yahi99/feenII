@@ -69,114 +69,76 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = (MediaQuery.of(context).size.height -
-        MediaQuery.of(context).padding.top);
-
+    final screenSize = MediaQuery.of(context).size;
     return Form(
         key: _formKey,
         child: Scaffold(
           body: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(16, 32, 16, 16),
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Ionicons.md_arrow_round_forward,
-                              color: kPrimaryColor),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        SizedBox(width: 2),
-                        Container(
-                          child: AutoSizeText(
-                            "الخطوة الأولى",
-                            maxFontSize: 40,
-                            minFontSize: 20.0,
-                            style: TextStyle(
-                              fontFamily: 'Cairo',
-                              fontWeight: FontWeight.bold,
-                              color: kPrimaryColor,
-                            ),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  backWidget(context, "الخطوة الأولى", kPrimaryColor),
+                  Container(
+                      child: Image.asset('assets/icons/sms.png'),
+                      height: screenSize.height * .2),
+                  AutoSizeText(
+                    'تسجيل رقم الهاتف',
+                    textAlign: TextAlign.center,
+                    style: kSloganTextStyle.apply(color: kPrimaryColor),
+                    minFontSize: 14,
+                    maxFontSize: 22,
+                  ),
+                  SizedBox(height: screenSize.height * 0.02),
+                  Card(
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    elevation: 8,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text(
+                              'سوف يتم ارسال رسالة تحتوي على ستة أرقام للرقم الذي سيتم ادخاله.',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.subtitle1),
+                          SizedBox(height: 20),
+                          TextFieldWidget(
+                            validator: (value) =>
+                                PhoneNumberValidator.validate(value),
+                            onchanged: (value) => phone = value,
+                            labeltext: 'رقم الهاتف',
+                            prefixIcon: FlutterIcons.mobile_phone_faw,
+                            obsecureText: false,
+                            inputType: TextInputType.phone,
                           ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                        child: Image.asset('lib/assets/icons/sms.png'),
-                        height: screenHeight * .2),
-                    AutoSizeText(
-                      'تسجيل رقم الهاتف',
-                      textAlign: TextAlign.center,
-                      style: kSloganTextStyle.apply(color: kPrimaryColor),
-                      minFontSize: 14,
-                      maxFontSize: 22,
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                      height: screenHeight * .4,
-                      child: Card(
-                        elevation: 8,
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Colors.black12),
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: AutoSizeText(
-                                'سوف يتم ارسال رسالة تحتوي على ستة أرقام للرقم الذي سيتم ادخاله.',
-                                textAlign: TextAlign.center,
-                                style: kSloganTextStyle.copyWith(
-                                  color: Colors.black45,
-                                ),
-                                minFontSize: 14,
-                                maxFontSize: 18,
-                              ),
-                            ),
-                            SizedBox(height: 8),
-                            TextFieldWidget(
-                              validator: (value) {
-                                return PhoneNumberValidator.validate(value);
-                              },
-                              onchanged: (value) {
-                                phone = value;
-                              },
-                              labeltext: 'رقم الهاتف',
-                              prefixIcon: FlutterIcons.mobile_phone_faw,
-                              obsecureText: false,
-                              inputType: TextInputType.phone,
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 16),
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: RoundedButton(
-                        onPressed: () {
-                          checkInternet();
-                          if (_formKey.currentState.validate()) {
-                            phoneNumber();
-                          }
-                        },
-                        color: kPrimaryColor,
-                        textColor: Colors.white,
-                        title: 'التالي',
-                        leftMarginValue: 0,
-                      ),
+                  ),
+                  SizedBox(height: 16),
+                  Container(
+                    margin: EdgeInsets.only(left: 16),
+                    alignment: Alignment.topLeft,
+                    child: RoundedButton(
+                      onPressed: () {
+                        checkInternet();
+                        if (_formKey.currentState.validate()) {
+                          phoneNumber();
+                        }
+                      },
+                      color: kPrimaryColor,
+                      textColor: Colors.white,
+                      title: 'التالي',
+                      leftMarginValue: 0,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -185,19 +147,10 @@ class _PhoneInsertionScreenState extends State<PhoneInsertionScreen> {
 
   void phoneNumber() async {
     showDialog(
-        context: context,
-        builder: (_) {
-          return Directionality(
-            textDirection: TextDirection.rtl,
-            child: AlertDialog(
-              title: new Text('رجاء الأنتظار',
-                  style: TextStyle(fontFamily: 'Cairo', color: kPrimaryColor)),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              content: Container(height: 120, child: loadResult(context)),
-            ),
-          );
-        });
+      context: context,
+      builder: (_) => loadResult(context),
+    );
+
     final PhoneVerificationCompleted verificationCompleted =
         (AuthCredential phoneAuthCredential) async {
       final result = (await _auth.signInWithCredential(phoneAuthCredential));
